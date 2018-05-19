@@ -232,3 +232,9 @@
 1341010374 c:\program files (x86)\codeblocks\mingw\include\math.h
 	<_mingw.h>
 
+1526761567 source:d:\documentos\git\mergesort\main.cpp
+	<GLUT/glut.h>
+	<GL/glut.h>
+	<iostream>
+	<stdlib.h>
+
