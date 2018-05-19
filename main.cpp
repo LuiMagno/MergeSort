@@ -24,9 +24,12 @@
 using namespace std;
 static int slices = 16;
 static int stacks = 16;
-
+GLfloat win, r, g, b;
 /* GLUT callback Handlers */
-
+struct Point {
+	GLint x;
+	GLint y;
+};
 static void resize(int width, int height)
 {
     const float ar = (float) width / (float) height;
@@ -40,10 +43,8 @@ static void resize(int width, int height)
     glLoadIdentity() ;
 }
 
-static void Desenha_Cubo(void){
 
-    glutWireCube(1);
-}
+
 static void display(void)
 {
     const double t = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
@@ -53,24 +54,83 @@ static void display(void)
     glColor3d(1,1,0);
 
   glPushMatrix();
-       glTranslated(-1.4,1.2,-6);
-       glRotated(60,1,0,0);
-       glRotated(a,0,0,1);
+       glTranslated(0,1.2,-6);
+//       glRotated(60,1,0,0);
+//       glRotated(a,0,0,1);
        glutSolidCube(0.5);
   glPopMatrix();
 
-    Desenha_Cubo();
+  glPushMatrix();
+       glTranslated(-0.6,1.2,-6);
+//       glRotated(60,1,0,0);
+//       glRotated(a,0,0,1);
+       glutSolidCube(0.5);
+  glPopMatrix();
+
+  glPushMatrix();
+       glTranslated(-1.2,1.2,-6);
+//       glRotated(60,1,0,0);
+//       glRotated(a,0,0,1);
+       glutSolidCube(0.5);
+  glPopMatrix();
+
+  glPushMatrix();
+       glTranslated(-1.8,1.2,-6);
+//       glRotated(60,1,0,0);
+//       glRotated(a,0,0,1);
+       glutSolidCube(0.5);
+  glPopMatrix();
+
+  glPushMatrix();
+       glTranslated(0.6,1.2,-6);
+//       glRotated(60,1,0,0);
+//       glRotated(a,0,0,1);
+       glutSolidCube(0.5);
+  glPopMatrix();
+
+  glPushMatrix();
+       glTranslated(1.2,1.2,-6);
+//       glRotated(60,1,0,0);
+//       glRotated(a,0,0,1);
+       glutSolidCube(0.5);
+  glPopMatrix();
+
+  glPushMatrix();
+       glTranslated(1.8,1.2,-6);
+//       glRotated(60,1,0,0);
+//       glRotated(a,0,0,1);
+       glutSolidCube(0.5);
+  glPopMatrix();
+glColor3d(1,0,0);
+  glPushMatrix();
+       glTranslated(2.4,1.2,-6);
+//       glRotated(60,1,0,0);
+//       glRotated(a,0,0,1);
+       glutSolidCube(0.5);
+  glPopMatrix();
+
+
 
 
 
     glutSwapBuffers();
 }
 
+void Desenha_Cubo(){
+   glColor3f(0.5f, 0.5f, 0.5f);
 
+	/* Desenha um triângulo na cor corrente */
+	glBegin(GL_TRIANGLES);
+		glVertex2i(300, 200);
+		glVertex2i(350, 300);
+		glVertex2i(400, 200);
+	glEnd();
+
+}
 void keyboard(unsigned char key, int x, int y){
     switch(key){
         case '7':
-            Desenha_Cubo();
+           glutWireCube(1);
             break;
 
         case 'd':
@@ -102,7 +162,22 @@ const GLfloat mat_specular[]   = { 1.0f, 1.0f, 1.0f, 1.0f };
 const GLfloat high_shininess[] = { 100.0f };
 
 /* Program entry point */
+void mainMenuHandler(int choice) {
+	Point p = {320, 240};	// draw_pixel
+	Point p1 = {10, 100};	// draw_line
+	Point p2 = {200, 100};	// --
 
+	Point pC = {320, 240};	// Circle center point
+	GLfloat radius = 200;	// Circle radius
+
+	switch(choice) {
+		case 1:	// Pixel
+			Desenha_Cubo();
+			break;
+
+
+	}
+}
 int main(int argc, char *argv[])
 {
     glutInit(&argc, argv);
@@ -110,11 +185,11 @@ int main(int argc, char *argv[])
     glutInitWindowPosition(10,10);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
-    glutCreateWindow("GLUT Shapes");
+    glutCreateWindow("MergeSort!!!");
 
     glutReshapeFunc(resize);
     glutDisplayFunc(display);
-    glutSpecialFunc(keyboard);
+    glutKeyboardFunc(keyboard);
     glutIdleFunc(idle);
 
     glClearColor(1,1,1,1);
@@ -139,7 +214,13 @@ int main(int argc, char *argv[])
     glMaterialfv(GL_FRONT, GL_SPECULAR,  mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
 
+    glutCreateMenu(mainMenuHandler);
+	glutAddMenuEntry("Desenha Cubo", 1);
+	glutAddMenuEntry("Line", 2);
+	glutAddMenuEntry("Circle", 3);
+	glutAddMenuEntry("Ellipse", 4);
+	glutAddMenuEntry("Exit", 5);
+    glutAttachMenu(GLUT_RIGHT_BUTTON);
     glutMainLoop();
-
     return EXIT_SUCCESS;
 }
