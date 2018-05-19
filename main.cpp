@@ -1,51 +1,188 @@
-/*
- * GLUT Shapes Demo
- *
- * Written by Nigel Stewart November 2003
- *
- * This program is test harness for the sphere, cone
- * and torus shapes in GLUT.
- *
- * Spinning wireframe and smooth shaded shapes are
- * displayed until the ESC or q key is pressed.  The
- * number of geometry stacks and slices can be adjusted
- * using the + and - keys.
- */
+/* Código para exemplificar
+o uso de iluminação no OpenGL */
 
-#ifdef __APPLE__
-#include <GLUT/glut.h>
-#else
 #include <GL/glut.h>
-#endif
-#include <iostream>
-#include <stdlib.h>
 
+#define LARGURA  600		/* Width */
+#define ALTURA   600		/* Heigth */
 
-using namespace std;
-static int slices = 16;
-static int stacks = 16;
 double rotationX = 20.0;
 double rotationY = 20.0;
-GLfloat win, r, g, b;
+
 int last_press_x = 0;
 int last_press_y = 0;
-/* GLUT callback Handlers */
-struct Point {
-	GLint x;
-	GLint y;
-};
-static void resize(int width, int height)
+
+void Desenha_Origem()
 {
-    const float ar = (float) width / (float) height;
+	/* Define a cor Azul (BLUE) */
+	glColor3f(0.0, 0.0, 1.0);
+	/* Define o tamanho do ponto para 4x4 pixels */
+	glPointSize(4);
 
-    glViewport(0, 0, width, height);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glFrustum(-ar, ar, -1.0, 1.0, 2.0, 100.0);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity() ;
+	glBegin(GL_POINTS);
+		glVertex3i(0, 0, 0);
+	glEnd();
 }
+
+void Desenha_Eixos_Coordenados()
+{
+	/* Desenha Eixo +Y */
+	glColor3f(1.0, 0.0, 0.0); /* RED */
+	glBegin(GL_LINES);
+		glVertex3i(0, 0, 0);
+		glVertex3i(0, ALTURA/2, 0);
+	glEnd();
+
+	/* Desenha Eixo -Y */
+	glColor3f(1.0, 0.8, 0.8); /* RED claro */
+	glBegin(GL_LINES);
+		glVertex3i(0, 0, 0);
+		glVertex3i(0, -ALTURA/2, 0);
+	glEnd();
+
+	/* Desenha Eixo +X */
+	glColor3f(0.0, 0.0, 1.0); /* BLUE */
+	glBegin(GL_LINES);
+		glVertex3i(0, 0, 0);
+		glVertex3i(LARGURA/2, 0, 0);
+	glEnd();
+
+	/* Desenha Eixo -X */
+	glColor3f(0.8, 0.8, 1.0); /* BLUE claro */
+	glBegin(GL_LINES);
+		glVertex3i(0, 0, 0);
+		glVertex3i(-LARGURA/2, 0, 0);
+	glEnd();
+
+	/* Desenha Eixo +Z */
+	glColor3f(0.0, 1.0, 0.0); /* GREEN */
+	glBegin(GL_LINES);
+		glVertex3i(0, 0, 0);
+		glVertex3i(0, 0, LARGURA/2);
+	glEnd();
+
+	/* Desenha Eixo -Z */
+	glColor3f(0.8, 1.0, 0.8); /* GREEN claro */
+	glBegin(GL_LINES);
+		glVertex3i(0, 0, 0);
+		glVertex3i(0, 0, -LARGURA/2);
+	glEnd();
+
+}
+
+void Desenha_Face_Superior_Cubo()
+{
+	float lado_cubo = 5;
+	glNormal3f(0.0, 1.0, 0.0); /* Normal da Face */
+	glBegin(GL_POLYGON);
+		glVertex3d(lado_cubo/2, lado_cubo, lado_cubo/2);
+		glVertex3d(-lado_cubo/2, lado_cubo, lado_cubo/2);
+		glVertex3d(-lado_cubo/2, lado_cubo, -lado_cubo/2);
+		glVertex3d(lado_cubo/2, lado_cubo,-lado_cubo/2);
+	glEnd();
+}
+
+void ParametrosIluminacao()
+{
+	/* Parâmetros para a Luz GL_LIGHT0 sendo uma fonte de Luz Pontual */
+	GLfloat luzAmbiente[4]={0.0, 0.0, 1.0, 1.0};	/* cor azul */
+	GLfloat luzDifusa[4]={1.0, 1.0, 1.0, 1.0};	  	/* cor branca */
+	GLfloat luzEspecular[4]={1.0, 1.0, 1.0, 1.0}; 	/* cor branca - brilho */
+	GLfloat posicaoLuz[4]={0.0, 50.0, 50.0, 1.0};	/* Fonte de Luz Pontual */
+
+	/* Define os parâmetros da luz de número 0 (Luz Pontual) */
+	glLightfv(GL_LIGHT0, GL_AMBIENT, luzAmbiente);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, luzDifusa );
+	glLightfv(GL_LIGHT0, GL_SPECULAR, luzEspecular );
+	glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz );
+
+	/* Ativa o uso de uma fonte de luz ambiente */
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzAmbiente);
+
+	/* Características do material */
+	GLfloat ka[4]={0.11, 0.06, 0.11, 1.0};		/* Reflete porcentagens da cor ambiente */
+	GLfloat kd[4]={0.4, 0.4, 0.7, 1.0};		/* Reflete porcentagens da cor difusa */
+	GLfloat ks[4]={1.0, 1.0, 1.0, 1.0};		/* Reflete porcentagens da cor especular */
+	GLfloat shininess = 60.0;
+
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ka);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, kd);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, ks); /* Refletância do material */
+	glMaterialf(GL_FRONT, GL_SHININESS, shininess);   /* Concentração do brilho */
+}
+
+/* Função callback chamada para fazer o desenho */
+void Desenha(void)
+{
+	/* Limpa a janela de visualização com a cor de fundo especificada */
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+    /* Especifica uma Câmera com:
+     * olho = (0, 0, 30)
+     * olhar = (0, 0, 0)
+     * up = (0, 1, 0) */
+    glLoadIdentity();
+    gluLookAt(0.0, 0.0, 30.0,		/* eye */
+    		  0.0, 0.0, 0.0,		/* look */
+    		  0.0, 1.0, 0.0);		/* up */
+
+    ParametrosIluminacao();
+
+    /* Rotaciona os objetos para visualizar a 3 dimensão */
+	glRotatef(rotationY, 1.0, 0.0, 0.0); /* Rotaciona em torno do X */
+	glRotatef(rotationX, 0.0, 1.0, 0.0); /* Rotaciona em torno de Y */
+
+	Desenha_Origem();
+	Desenha_Eixos_Coordenados();
+
+	//glColor3f(1.0, 0.0, 0.0);
+	//Desenha_Face_Superior_Cubo();
+    //glutSolidCube(4);
+	//glutSolidSphere(4, 50, 50);
+	//glutSolidTeapot(4);
+	//glutSolidTorus(1, 4, 20, 20);
+	 glBegin(GL_QUADS);        // Draw The Cube Using quads
+            glColor3f(0.0f,1.0f,0.0f);    // Color Blue
+            glVertex3f( 1.0f, 1.0f,-1.0f);    // Top Right Of The Quad (Top)
+            glVertex3f(-1.0f, 1.0f,-1.0f);    // Top Left Of The Quad (Top)
+            glVertex3f(-1.0f, 1.0f, 1.0f);    // Bottom Left Of The Quad (Top)
+            glVertex3f( 1.0f, 1.0f, 1.0f);    // Bottom Right Of The Quad (Top)
+            glColor3f(1.0f,0.5f,0.0f);    // Color Orange
+            glVertex3f( 1.0f,-1.0f, 1.0f);    // Top Right Of The Quad (Bottom)
+            glVertex3f(-1.0f,-1.0f, 1.0f);    // Top Left Of The Quad (Bottom)
+            glVertex3f(-1.0f,-1.0f,-1.0f);    // Bottom Left Of The Quad (Bottom)
+            glVertex3f( 1.0f,-1.0f,-1.0f);    // Bottom Right Of The Quad (Bottom)
+            glColor3f(1.0f,0.0f,0.0f);    // Color Red
+            glVertex3f( 1.0f, 1.0f, 1.0f);    // Top Right Of The Quad (Front)
+            glVertex3f(-1.0f, 1.0f, 1.0f);    // Top Left Of The Quad (Front)
+            glVertex3f(-1.0f,-1.0f, 1.0f);    // Bottom Left Of The Quad (Front)
+            glVertex3f( 1.0f,-1.0f, 1.0f);    // Bottom Right Of The Quad (Front)
+            glColor3f(1.0f,1.0f,0.0f);    // Color Yellow
+            glVertex3f( 1.0f,-1.0f,-1.0f);    // Top Right Of The Quad (Back)
+            glVertex3f(-1.0f,-1.0f,-1.0f);    // Top Left Of The Quad (Back)
+            glVertex3f(-1.0f, 1.0f,-1.0f);    // Bottom Left Of The Quad (Back)
+            glVertex3f( 1.0f, 1.0f,-1.0f);    // Bottom Right Of The Quad (Back)
+            glColor3f(0.0f,0.0f,1.0f);    // Color Blue
+            glVertex3f(-1.0f, 1.0f, 1.0f);    // Top Right Of The Quad (Left)
+            glVertex3f(-1.0f, 1.0f,-1.0f);    // Top Left Of The Quad (Left)
+            glVertex3f(-1.0f,-1.0f,-1.0f);    // Bottom Left Of The Quad (Left)
+            glVertex3f(-1.0f,-1.0f, 1.0f);    // Bottom Right Of The Quad (Left)
+            glColor3f(1.0f,0.0f,1.0f);    // Color Violet
+            glVertex3f( 1.0f, 1.0f,-1.0f);    // Top Right Of The Quad (Right)
+            glVertex3f( 1.0f, 1.0f, 1.0f);    // Top Left Of The Quad (Right)
+            glVertex3f( 1.0f,-1.0f, 1.0f);    // Bottom Left Of The Quad (Right)
+            glVertex3f( 1.0f,-1.0f,-1.0f);    // Bottom Right Of The Quad (Right)
+    glEnd();            // End Drawing The Cube
+
+	/* Executa os comandos OpenGL */
+	glFlush();
+}
+
+/* Callback chamada quando o mouse é movido com
+ * alguma tecla pressionada */
 void Mouse_Motion(int x, int y)
 {
 	/* Se o mouse é movido para a esquerda, rotationX é decrementado
@@ -70,223 +207,72 @@ void Mouse_Press(int button, int state, int x, int y)
 	}
 }
 
-
-static void display(void)
+void Janela(int opcao)
 {
-    const double t = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
-    const double a = t*90.0;
+	switch(opcao){
+		case 0:
+			glShadeModel(GL_FLAT);		/* Modelo Flat */
+		break;
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glColor3d(1,1,0);
-
-    glLoadIdentity();
-    gluLookAt(0.0, 0.0, 2.0,		/* eye */
-    		  0.0, 0.0, 0.0,		/* look */
-    		  0.0, 1.0, 0.0);		/* up */
-
-
-  glPushMatrix();
-       glTranslated(0,1.2,-6);
-//       glRotated(60,1,0,0);
-//       glRotated(a,0,0,1);
-       //glutSolidCube(0.5);
-       glBegin(GL_QUADS);        // Draw The Cube Using quads
-            glColor3f(0.0f,1.0f,0.0f);    // Color Blue
-            glVertex3f( 1.0f, 1.0f,-1.0f);    // Top Right Of The Quad (Top)
-            glVertex3f(-1.0f, 1.0f,-1.0f);    // Top Left Of The Quad (Top)
-            glVertex3f(-1.0f, 1.0f, 1.0f);    // Bottom Left Of The Quad (Top)
-            glVertex3f( 1.0f, 1.0f, 1.0f);    // Bottom Right Of The Quad (Top)
-            glColor3f(1.0f,0.5f,0.0f);    // Color Orange
-            glVertex3f( 1.0f,-1.0f, 1.0f);    // Top Right Of The Quad (Bottom)
-            glVertex3f(-1.0f,-1.0f, 1.0f);    // Top Left Of The Quad (Bottom)
-            glVertex3f(-1.0f,-1.0f,-1.0f);    // Bottom Left Of The Quad (Bottom)
-            glVertex3f( 1.0f,-1.0f,-1.0f);    // Bottom Right Of The Quad (Bottom)
-            glColor3f(1.0f,0.0f,0.0f);    // Color Red
-            glVertex3f( 0.0f, 0.8f, 0.3f);    // Top Right Of The Quad (Front)
-            glVertex3f(-0.4f, 0.8f, 0.3f);    // Top Left Of The Quad (Front)
-            glVertex3f(-0.4f,0.0f, 0.3f);    // Bottom Left Of The Quad (Front)
-            glVertex3f( 0.0f,0.0f, 0.3f);    // Bottom Right Of The Quad (Front)
-            glColor3f(1.0f,1.0f,0.0f);    // Color Yellow
-            glVertex3f( 0.0f,0.8f,-0.3f);    // Top Right Of The Quad (Back)
-            glVertex3f(-0.4f,0.8f,-0.3f);    // Top Left Of The Quad (Back)
-            glVertex3f(-0.4f, 0.0f,-0.3f);    // Bottom Left Of The Quad (Back)
-            glVertex3f( 0.0f, 0.0f,-0.3f);    // Bottom Right Of The Quad (Back)
-            glColor3f(0.0f,0.0f,1.0f);    // Color Blue
-            glVertex3f(0.0f, 0.8f, 0.3f);    // Top Right Of The Quad (Left)
-            glVertex3f(0.0f, 0.8f,-0.3f);    // Top Left Of The Quad (Left)
-            glVertex3f(0.4f,0.0f,-0.3f);    // Bottom Left Of The Quad (Left)
-            glVertex3f(0.4f,0.0f, 0.3f);    // Bottom Right Of The Quad (Left)
-            glColor3f(1.0f,0.0f,1.0f);    // Color Violet
-            glVertex3f( 0.0f, 0.8f,-0.3f);    // Top Right Of The Quad (Right)
-            glVertex3f( 0.0f, 0.8f, 0.3f);    // Top Left Of The Quad (Right)
-            glVertex3f( 0.4f,0.0f, 0.3f);    // Bottom Left Of The Quad (Right)
-            glVertex3f( 0.4f,0.0f,-0.3f);    // Bottom Right Of The Quad (Right)
-     glEnd();            // End Drawing The Cube
-  glPopMatrix();
-/*
-  glPushMatrix();
-       glTranslated(-0.6,1.2,-6);
-//       glRotated(60,1,0,0);
-//       glRotated(a,0,0,1);
-       glutSolidCube(0.5);
-  glPopMatrix();
-
-  glPushMatrix();
-       glTranslated(-1.2,1.2,-6);
-//       glRotated(60,1,0,0);
-//       glRotated(a,0,0,1);
-       glutSolidCube(0.5);
-  glPopMatrix();
-
-  glPushMatrix();
-       glTranslated(-1.8,1.2,-6);
-//       glRotated(60,1,0,0);
-//       glRotated(a,0,0,1);
-       glutSolidCube(0.5);
-  glPopMatrix();
-
-  glPushMatrix();
-       glTranslated(0.6,1.2,-6);
-//       glRotated(60,1,0,0);
-//       glRotated(a,0,0,1);
-       glutSolidCube(0.5);
-  glPopMatrix();
-
-  glPushMatrix();
-       glTranslated(1.2,1.2,-6);
-//       glRotated(60,1,0,0);
-//       glRotated(a,0,0,1);
-       glutSolidCube(0.5);
-  glPopMatrix();
-
-  glPushMatrix();
-       glTranslated(1.8,1.2,-6);
-//       glRotated(60,1,0,0);
-//       glRotated(a,0,0,1);
-       glutSolidCube(0.5);
-  glPopMatrix();
-glColor3d(1,0,0);
-  glPushMatrix();
-       glTranslated(2.4,1.2,-6);
-//       glRotated(60,1,0,0);
-//       glRotated(a,0,0,1);
-       glutSolidCube(0.5);
-  glPopMatrix();
-
-*/
-
-
-
-    glutSwapBuffers();
-}
-
-void Desenha_Cubo(){
-   glColor3f(0.5f, 0.5f, 0.5f);
-
-	/* Desenha um triângulo na cor corrente */
-	glBegin(GL_TRIANGLES);
-		glVertex2i(300, 200);
-		glVertex2i(350, 300);
-		glVertex2i(400, 200);
-	glEnd();
-
-}
-void keyboard(unsigned char key, int x, int y){
-    switch(key){
-        case '7':
-           glutWireCube(1);
-            break;
-
-        case 'd':
-
-            break;
-
-        case 'r':
-
-            break;
-
-        case 'R':
-
-            break;
-    }
-}
-static void idle(void)
-{
-    glutPostRedisplay();
-}
-
-const GLfloat light_ambient[]  = { 0.0f, 0.0f, 0.0f, 1.0f };
-const GLfloat light_diffuse[]  = { 1.0f, 1.0f, 1.0f, 1.0f };
-const GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-const GLfloat light_position[] = { 2.0f, 5.0f, 5.0f, 0.0f };
-
-const GLfloat mat_ambient[]    = { 0.7f, 0.7f, 0.7f, 1.0f };
-const GLfloat mat_diffuse[]    = { 0.8f, 0.8f, 0.8f, 1.0f };
-const GLfloat mat_specular[]   = { 1.0f, 1.0f, 1.0f, 1.0f };
-const GLfloat high_shininess[] = { 100.0f };
-
-/* Program entry point */
-void mainMenuHandler(int choice) {
-	Point p = {320, 240};	// draw_pixel
-	Point p1 = {10, 100};	// draw_line
-	Point p2 = {200, 100};	// --
-
-	Point pC = {320, 240};	// Circle center point
-	GLfloat radius = 200;	// Circle radius
-
-	switch(choice) {
-		case 1:	// Pixel
-			Desenha_Cubo();
-			break;
-
-
+		case 1:
+			glShadeModel(GL_SMOOTH); 	/* Modelo Gouraud */
+		break;
 	}
+
+	/* Necessário chamar toda vez que se faz uma alteração ou evento na janela
+	 * Indica a funcao glutMainLoop a chamar glutDisplayFunc com as alterações */
+	glutPostRedisplay();
 }
-int main(int argc, char *argv[])
+
+void CriarMenu()
 {
-    glutInit(&argc, argv);
-    glutInitWindowSize(940,780);
-    glutInitWindowPosition(10,10);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+	/* Cria um menu cujas as opções serão gerenciadas pela funcao "Janela" */
+	glutCreateMenu(Janela);
 
-    glutCreateWindow("MergeSort!!!");
+	/* Cria entradas nesse menu */
+	glutAddMenuEntry("Modelo FLAT", 0);
+	glutAddMenuEntry("Modelo Gouraud", 1);
 
-    glutReshapeFunc(resize);
-    glutDisplayFunc(display);
-    glutKeyboardFunc(keyboard);
-    glutIdleFunc(idle);
+	/* Indica qual o botao que acionará o menu */
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
+}
 
-    glClearColor(1,1,1,1);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
+/* Inicializa parâmetros de rendering */
+void Inicializa (void)
+{
+    /* Define a cor de fundo da janela de visualização como branca */
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
+    /* Modo de projecao ortogonal (Default) */
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    //glOrtho(-10, 10, -10, 10, -50, 50);
+    gluPerspective(40.0f, ((GLfloat)LARGURA/(GLfloat)ALTURA), 1, 50.0f);
 
-    glEnable(GL_LIGHT0);
-    glEnable(GL_NORMALIZE);
-    glEnable(GL_COLOR_MATERIAL);
-    glEnable(GL_LIGHTING);
+    /*************** Parâmetros de Iluminação ***************/
+	/* Habilita o uso de iluminação */
+	//glEnable(GL_LIGHTING);
+	/* Habilita a luz de número 0 */
+	//glEnable(GL_LIGHT0);
+	/* Habilita o depth-buffering para remoção de faces escondidas */
+	glEnable(GL_DEPTH_TEST);
 
-    glLightfv(GL_LIGHT0, GL_AMBIENT,  light_ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE,  light_diffuse);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	/* Modelos de Iluminação Defaut */
+	//glShadeModel(GL_SMOOTH); 		/* Gouraud */
+}
 
-    glMaterialfv(GL_FRONT, GL_AMBIENT,   mat_ambient);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE,   mat_diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR,  mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
-
-    glutCreateMenu(mainMenuHandler);
-	glutAddMenuEntry("Desenha Cubo", 1);
-	glutAddMenuEntry("Line", 2);
-	glutAddMenuEntry("Circle", 3);
-	glutAddMenuEntry("Ellipse", 4);
-	glutAddMenuEntry("Exit", 5);
-    glutAttachMenu(GLUT_RIGHT_BUTTON);
-    glutMainLoop();
-    glutMouseFunc(Mouse_Press);
+/* Programa Principal */
+int main(int argc, char **argv)
+{
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH);
+	glutInitWindowSize (LARGURA, ALTURA);
+	glutInitWindowPosition (100, 100);
+	glutCreateWindow("Iluminacao");
+	glutDisplayFunc(Desenha);
+	glutMouseFunc(Mouse_Press);
 	glutMotionFunc(Mouse_Motion);
-    return EXIT_SUCCESS;
+	Inicializa();
+	CriarMenu();
+	glutMainLoop();
 }
