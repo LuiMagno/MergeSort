@@ -1,9 +1,6 @@
 # depslib dependency file v1.0
-1526605066 source:c:\users\administrador\desktop\códigos exemplos\mergesort\main.cpp
-	<GLUT/glut.h>
+1526770158 source:c:\users\administrador\desktop\códigos exemplos\mergesort\main.cpp
 	<GL/glut.h>
-	<iostream>
-	<stdlib.h>
 
 1426360528 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
 	"freeglut_std.h"

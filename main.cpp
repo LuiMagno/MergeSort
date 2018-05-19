@@ -11,7 +11,13 @@ double rotationY = 20.0;
 
 int last_press_x = 0;
 int last_press_y = 0;
-
+double pos_xu, vetor [16];
+int pos_x = 0;
+int passo = 1;
+int pos_y = 0;
+float pos_z = 0;
+float pos_z2 = 0;
+float pos_z3 = 0;
 void Desenha_Origem()
 {
 	/* Define a cor Azul (BLUE) */
@@ -110,7 +116,41 @@ void ParametrosIluminacao()
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, ks); /* Refletância do material */
 	glMaterialf(GL_FRONT, GL_SHININESS, shininess);   /* Concentração do brilho */
 }
+void Desenha_Barra(void){
+    glBegin(GL_QUADS);        // Draw The Cube Using quads
+            glColor3f(0.0f,1.0f,0.0f);    // Color Blue
+            glVertex3f( 0.5f, 0.5f,-0.5f);    // Top Right Of The Quad (Top)
+            glVertex3f(-0.5f, 0.5f,-0.5f);    // Top Left Of The Quad (Top)
+            glVertex3f(-0.5f, 0.5f, 0.5f);    // Bottom Left Of The Quad (Top)
+            glVertex3f( 0.5f, 0.5f, 0.5f);    // Bottom Right Of The Quad (Top)
+            glColor3f(1.0f,0.5f,0.0f);    // Color Orange
+            glVertex3f( 0.5f,-0.5f, 0.5f);    // Top Right Of The Quad (Bottom)
+            glVertex3f(-0.5f,-0.5f, 0.5f);    // Top Left Of The Quad (Bottom)
+            glVertex3f(-0.5f,-0.5f,-0.5f);    // Bottom Left Of The Quad (Bottom)
+            glVertex3f( 0.5f,-0.5f,-0.5f);    // Bottom Right Of The Quad (Bottom)
+            glColor3f(1.0f,0.0f,0.0f);    // Color Red
+            glVertex3f( 0.5, 0.5, 0.5);    // Top Right Of The Quad (Front)
+            glVertex3f(-0.5, 0.5, 0.5);    // Top Left Of The Quad (Front)
+            glVertex3f(-0.5,-0.5, 0.5);    // Bottom Left Of The Quad (Front)
+            glVertex3f( 0.5,-0.5, 0.5);    // Bottom Right Of The Quad (Front)
+            glColor3f(1.0f,1.0f,0.0f);    // Color Yellow
+            glVertex3f( 0.5f,-0.5f,-0.5f);    // Top Right Of The Quad (Back)
+            glVertex3f(-0.5f,-0.5f,-0.5f);    // Top Left Of The Quad (Back)
+            glVertex3f(-0.5f, 0.5f,-0.5f);    // Bottom Left Of The Quad (Back)
+            glVertex3f( 0.5f, 0.5f,-0.5f);    // Bottom Right Of The Quad (Back)
+            glColor3f(0.0f,0.0f,1.0f);    // Color Blue
+            glVertex3f(-0.5f, 0.5f, 0.5f);    // Top Right Of The Quad (Left)
+            glVertex3f(-0.5f, 0.5f,-0.5f);    // Top Left Of The Quad (Left)
+            glVertex3f(-0.5f,-0.5f,-0.5f);    // Bottom Left Of The Quad (Left)
+            glVertex3f(-0.5f,-0.5f, 0.5f);    // Bottom Right Of The Quad (Left)
+            glColor3f(1.0f,0.0f,1.0f);    // Color Violet
+            glVertex3f( 0.5f, 0.5f,-0.5f);    // Top Right Of The Quad (Right)
+            glVertex3f( 0.5f, 0.5f, 0.5f);    // Top Left Of The Quad (Right)
+            glVertex3f( 0.5f,-0.5f, 0.5f);    // Bottom Left Of The Quad (Right)
+            glVertex3f( 0.5f,-0.5f,-0.5f);    // Bottom Right Of The Quad (Right)
+    glEnd();            // End Drawing The Cube
 
+}
 /* Função callback chamada para fazer o desenho */
 void Desenha(void)
 {
@@ -125,8 +165,8 @@ void Desenha(void)
      * olhar = (0, 0, 0)
      * up = (0, 1, 0) */
     glLoadIdentity();
-    gluLookAt(0.0, 0.0, 30.0,		/* eye */
-    		  0.0, 0.0, 0.0,		/* look */
+    gluLookAt(0.0, 0.0, 40.0,		/* eye */
+    		  0.0, 0.0, -30.0,		/* look */
     		  0.0, 1.0, 0.0);		/* up */
 
     ParametrosIluminacao();
@@ -144,43 +184,121 @@ void Desenha(void)
 	//glutSolidSphere(4, 50, 50);
 	//glutSolidTeapot(4);
 	//glutSolidTorus(1, 4, 20, 20);
-	 glBegin(GL_QUADS);        // Draw The Cube Using quads
-            glColor3f(0.0f,1.0f,0.0f);    // Color Blue
-            glVertex3f( 1.0f, 1.0f,-1.0f);    // Top Right Of The Quad (Top)
-            glVertex3f(-1.0f, 1.0f,-1.0f);    // Top Left Of The Quad (Top)
-            glVertex3f(-1.0f, 1.0f, 1.0f);    // Bottom Left Of The Quad (Top)
-            glVertex3f( 1.0f, 1.0f, 1.0f);    // Bottom Right Of The Quad (Top)
-            glColor3f(1.0f,0.5f,0.0f);    // Color Orange
-            glVertex3f( 1.0f,-1.0f, 1.0f);    // Top Right Of The Quad (Bottom)
-            glVertex3f(-1.0f,-1.0f, 1.0f);    // Top Left Of The Quad (Bottom)
-            glVertex3f(-1.0f,-1.0f,-1.0f);    // Bottom Left Of The Quad (Bottom)
-            glVertex3f( 1.0f,-1.0f,-1.0f);    // Bottom Right Of The Quad (Bottom)
-            glColor3f(1.0f,0.0f,0.0f);    // Color Red
-            glVertex3f( 1.0f, 1.0f, 1.0f);    // Top Right Of The Quad (Front)
-            glVertex3f(-1.0f, 1.0f, 1.0f);    // Top Left Of The Quad (Front)
-            glVertex3f(-1.0f,-1.0f, 1.0f);    // Bottom Left Of The Quad (Front)
-            glVertex3f( 1.0f,-1.0f, 1.0f);    // Bottom Right Of The Quad (Front)
-            glColor3f(1.0f,1.0f,0.0f);    // Color Yellow
-            glVertex3f( 1.0f,-1.0f,-1.0f);    // Top Right Of The Quad (Back)
-            glVertex3f(-1.0f,-1.0f,-1.0f);    // Top Left Of The Quad (Back)
-            glVertex3f(-1.0f, 1.0f,-1.0f);    // Bottom Left Of The Quad (Back)
-            glVertex3f( 1.0f, 1.0f,-1.0f);    // Bottom Right Of The Quad (Back)
-            glColor3f(0.0f,0.0f,1.0f);    // Color Blue
-            glVertex3f(-1.0f, 1.0f, 1.0f);    // Top Right Of The Quad (Left)
-            glVertex3f(-1.0f, 1.0f,-1.0f);    // Top Left Of The Quad (Left)
-            glVertex3f(-1.0f,-1.0f,-1.0f);    // Bottom Left Of The Quad (Left)
-            glVertex3f(-1.0f,-1.0f, 1.0f);    // Bottom Right Of The Quad (Left)
-            glColor3f(1.0f,0.0f,1.0f);    // Color Violet
-            glVertex3f( 1.0f, 1.0f,-1.0f);    // Top Right Of The Quad (Right)
-            glVertex3f( 1.0f, 1.0f, 1.0f);    // Top Left Of The Quad (Right)
-            glVertex3f( 1.0f,-1.0f, 1.0f);    // Bottom Left Of The Quad (Right)
-            glVertex3f( 1.0f,-1.0f,-1.0f);    // Bottom Right Of The Quad (Right)
-    glEnd();            // End Drawing The Cube
 
+	glPushMatrix();
+        glTranslatef(0, 0.5, 0.0);
+        Desenha_Barra(); // Barra 1
+	glPopMatrix();
+
+	glPushMatrix();
+        glScalef(1.0, 6.0, 1.0);
+        glTranslatef(1.5, 0.5, 0.0);
+        Desenha_Barra(); // Barra 2
+    glPopMatrix();
+
+    glPushMatrix();
+        glScalef(1.0, 5.0, 1.0);
+        glTranslatef(3.0, 0.5, 0.0);
+        Desenha_Barra(); // Barra 3
+    glPopMatrix();
+
+     glPushMatrix();
+        glScalef(1.0, 8.0, 1.0);
+        glTranslatef(4.5, 0.5, 0.0);
+        Desenha_Barra(); // Barra 4
+    glPopMatrix();
+
+     glPushMatrix();
+        glScalef(1.0, 3.0, 1.0);
+        glTranslatef(6.0, 0.5, 0.0);
+        Desenha_Barra(); // Barra 5
+    glPopMatrix();
+
+     glPushMatrix();
+        glScalef(1.0, 2.0, 1.0);
+        glTranslatef(7.5, 0.5, 0.0);
+        Desenha_Barra(); // Barra 6
+    glPopMatrix();
+
+     glPushMatrix();
+        glScalef(1.0, 2.0, 1.0);
+        glTranslatef(9.0, 0.5, 0.0);
+        Desenha_Barra(); // Barra 7
+    glPopMatrix();
+
+     glPushMatrix();
+        glScalef(1.0, 1.0, 1.0);
+        glTranslatef(10.5, 0.5, 0.0);
+        Desenha_Barra(); // Barra 8
+    glPopMatrix();
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+    glPushMatrix();
+        glScalef(1.0, 10.0, 1.0);
+        glTranslatef(-1.5, 0.5, 0.0);
+        Desenha_Barra(); // Barra 9
+    glPopMatrix();
+
+    glPushMatrix();
+        glScalef(1.0, 5.0, 1.0);
+        glTranslatef(-3.0, 0.5, 0.0);
+        Desenha_Barra(); // Barra 10
+    glPopMatrix();
+
+
+    glPushMatrix();
+    glTranslatef(pos_x, pos_y, pos_z3);
+        glScalef(1.0, 10.0, 1.0);
+        glTranslatef(-4.5, 0.5, 0.0);
+        Desenha_Barra(); // Barra 11
+    glPopMatrix();
+
+    glPushMatrix();
+        glScalef(1.0, 3.0, 1.0);
+        glTranslatef(-6.0, 0.5, 0.0);
+        Desenha_Barra(); // Barra 12
+    glPopMatrix();
+
+    glPushMatrix();
+        glScalef(1.0, 7.0, 1.0);
+        glTranslatef(-7.5, 0.5, 0.0);
+        Desenha_Barra(); // Barra 13
+    glPopMatrix();
+
+    glPushMatrix();
+        glScalef(1.0, 1.0, 1.0);
+        glTranslatef(-9.0, 0.5, 0.0);
+        Desenha_Barra(); // Barra 14
+    glPopMatrix();
+
+
+    glPushMatrix();
+    glTranslatef(pos_x, pos_y, pos_z2);
+        glScalef(1.0, 4.0, 1.0);
+        glTranslatef(-10.5, 0.5, 0.0);
+        Desenha_Barra(); // Barra 15
+    glPopMatrix();
+
+
+    glPushMatrix();
+    glTranslatef(pos_x, pos_y, pos_z);
+        glScalef(1.0, 6.0, 1.0);
+        glTranslatef(-12.0, 0.5, 0.0);
+        Desenha_Barra(); // Barra 16
+    glPopMatrix();
 	/* Executa os comandos OpenGL */
 	glFlush();
 }
+void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
+{
+   if(pos_z<5 && pos_z2<5 && pos_z3<5){
+    pos_z = pos_z + 0.1;
+    pos_z2 = pos_z2 + 0.1;
+    pos_z3 = pos_z3 + 0.1;
+}
 
+	glutPostRedisplay();
+	glutTimerFunc(20, Anima, 1);
+}
 /* Callback chamada quando o mouse é movido com
  * alguma tecla pressionada */
 void Mouse_Motion(int x, int y)
@@ -251,11 +369,11 @@ void Inicializa (void)
 
     /*************** Parâmetros de Iluminação ***************/
 	/* Habilita o uso de iluminação */
-	//glEnable(GL_LIGHTING);
+      //  glEnable(GL_LIGHTING);
 	/* Habilita a luz de número 0 */
-	//glEnable(GL_LIGHT0);
+	 //   glEnable(GL_LIGHT0);
 	/* Habilita o depth-buffering para remoção de faces escondidas */
-	glEnable(GL_DEPTH_TEST);
+	    glEnable(GL_DEPTH_TEST);
 
 	/* Modelos de Iluminação Defaut */
 	//glShadeModel(GL_SMOOTH); 		/* Gouraud */
@@ -274,5 +392,6 @@ int main(int argc, char **argv)
 	glutMotionFunc(Mouse_Motion);
 	Inicializa();
 	CriarMenu();
+	glutTimerFunc(100, Anima, 1);
 	glutMainLoop();
 }
