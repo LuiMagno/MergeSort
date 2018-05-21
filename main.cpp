@@ -2,22 +2,22 @@
 o uso de iluminação no OpenGL */
 
 #include <GL/glut.h>
+#include <iostream>
 
 #define LARGURA  600		/* Width */
 #define ALTURA   600		/* Heigth */
-
+using namespace std;
 double rotationX = 20.0;
 double rotationY = 20.0;
 
 int last_press_x = 0;
 int last_press_y = 0;
-double pos_xu, vetor [16];
-int pos_x = 0;
+double pos_z[15];
+int pos_x[15];
 int passo = 1;
-int pos_y = 0;
-float pos_z = 0;
-float pos_z2 = 0;
-float pos_z3 = 0;
+int pos_y[15];
+double pos_z2 = 0;
+
 void Desenha_Origem()
 {
 	/* Define a cor Azul (BLUE) */
@@ -152,6 +152,16 @@ void Desenha_Barra(void){
 
 }
 /* Função callback chamada para fazer o desenho */
+void Desenha_Plano(void){
+ glBegin(GL_QUADS);
+   glColor3f(0.0f,0.0f,0.2f);    // Color Orange
+        glVertex3f(30.0f, 0.0f, 30.0f);    // Top Right Of The Quad (Bottom)
+        glVertex3f(-30.0f, 0.0f, 30.0f);    // Top Left Of The Quad (Bottom)
+        glVertex3f(-30.0f,0.0f,-30.0f);    // Bottom Left Of The Quad (Bottom)
+        glVertex3f( 30.0f,0.0f,-30.0f);    // Bottom Right Of The Quad (Bottom)
+  glEnd();
+
+}
 void Desenha(void)
 {
 	/* Limpa a janela de visualização com a cor de fundo especificada */
@@ -184,120 +194,144 @@ void Desenha(void)
 	//glutSolidSphere(4, 50, 50);
 	//glutSolidTeapot(4);
 	//glutSolidTorus(1, 4, 20, 20);
+    Desenha_Plano();
 
 	glPushMatrix();
-        glTranslatef(0, 0.5, 0.0);
-        Desenha_Barra(); // Barra 1
+
+        glTranslatef(pos_x[0], 0.5, pos_z[0]);
+        Desenha_Barra(); // Barra 0
 	glPopMatrix();
 
 	glPushMatrix();
+        pos_x[1] = 2.0;
         glScalef(1.0, 6.0, 1.0);
-        glTranslatef(1.5, 0.5, 0.0);
-        Desenha_Barra(); // Barra 2
+        glTranslatef(pos_x[1], 0.5,pos_z[1]);
+        Desenha_Barra(); // Barra 1
     glPopMatrix();
 
     glPushMatrix();
+        pos_x[2] = 4.0;
         glScalef(1.0, 5.0, 1.0);
-        glTranslatef(3.0, 0.5, 0.0);
+        glTranslatef(pos_x[2], 0.5, pos_z[2]);
+        Desenha_Barra(); // Barra 2
+    glPopMatrix();
+
+     glPushMatrix();
+        pos_x[3] = 6.0;
+        glScalef(1.0, 8.0, 1.0);
+        glTranslatef(pos_x[3], 0.5, pos_z[3]);
         Desenha_Barra(); // Barra 3
     glPopMatrix();
 
      glPushMatrix();
-        glScalef(1.0, 8.0, 1.0);
-        glTranslatef(4.5, 0.5, 0.0);
+        pos_x[4] = 8.0;
+        glScalef(1.0, 3.0, 1.0);
+        glTranslatef(pos_x[4], 0.5, pos_z[4]);
         Desenha_Barra(); // Barra 4
     glPopMatrix();
 
      glPushMatrix();
-        glScalef(1.0, 3.0, 1.0);
-        glTranslatef(6.0, 0.5, 0.0);
+        pos_x[5] = 10.0;
+        glScalef(1.0, 2.0, 1.0);
+        glTranslatef(pos_x[5], 0.5, pos_z[5]);
         Desenha_Barra(); // Barra 5
     glPopMatrix();
 
      glPushMatrix();
+        pos_x[6] = 12.0;
         glScalef(1.0, 2.0, 1.0);
-        glTranslatef(7.5, 0.5, 0.0);
+        glTranslatef(pos_x[6], 0.5, pos_z[6]);
         Desenha_Barra(); // Barra 6
     glPopMatrix();
 
      glPushMatrix();
-        glScalef(1.0, 2.0, 1.0);
-        glTranslatef(9.0, 0.5, 0.0);
-        Desenha_Barra(); // Barra 7
-    glPopMatrix();
-
-     glPushMatrix();
+        pos_x[7] = 14.0;
         glScalef(1.0, 1.0, 1.0);
-        glTranslatef(10.5, 0.5, 0.0);
-        Desenha_Barra(); // Barra 8
+        glTranslatef(pos_x[7], 0.5, pos_z[7]);
+        Desenha_Barra(); // Barra 7
     glPopMatrix();
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
     glPushMatrix();
+        pos_x[8] = -2.0;
         glScalef(1.0, 10.0, 1.0);
-        glTranslatef(-1.5, 0.5, 0.0);
+        glTranslatef(pos_x[8], 0.5, pos_z[8]);
+        Desenha_Barra(); // Barra 8
+    glPopMatrix();
+
+    glPushMatrix();
+        pos_x[9] = -4.0;
+        glScalef(1.0, 5.0, 1.0);
+        glTranslatef(pos_x[9], 0.5, pos_z[9]);
         Desenha_Barra(); // Barra 9
     glPopMatrix();
 
+
     glPushMatrix();
-        glScalef(1.0, 5.0, 1.0);
-        glTranslatef(-3.0, 0.5, 0.0);
+        pos_x[10] = -6.0;
+        glScalef(1.0, 10.0, 1.0);
+        glTranslatef(pos_x[10], 0.5, pos_z[10]);
         Desenha_Barra(); // Barra 10
     glPopMatrix();
 
-
     glPushMatrix();
-    glTranslatef(pos_x, pos_y, pos_z3);
-        glScalef(1.0, 10.0, 1.0);
-        glTranslatef(-4.5, 0.5, 0.0);
+        pos_x[11] = -8.0;
+        glScalef(1.0, 3.0, 1.0);
+        glTranslatef(pos_x[11], 0.5, pos_z[11]);
         Desenha_Barra(); // Barra 11
     glPopMatrix();
 
     glPushMatrix();
-        glScalef(1.0, 3.0, 1.0);
-        glTranslatef(-6.0, 0.5, 0.0);
+     pos_x[12] = -10.0;
+        glScalef(1.0, 7.0, 1.0);
+        glTranslatef( pos_x[12], 0.5, pos_z[12]);
         Desenha_Barra(); // Barra 12
     glPopMatrix();
 
     glPushMatrix();
-        glScalef(1.0, 7.0, 1.0);
-        glTranslatef(-7.5, 0.5, 0.0);
+     pos_x[13] = -12.0;
+        glScalef(1.0, 1.0, 1.0);
+        glTranslatef(pos_x[13], 0.5, pos_z[13]);
         Desenha_Barra(); // Barra 13
     glPopMatrix();
 
+
     glPushMatrix();
-        glScalef(1.0, 1.0, 1.0);
-        glTranslatef(-9.0, 0.5, 0.0);
+        pos_x[14] = -14.0;
+        glScalef(1.0, 4.0, 1.0);
+        glTranslatef(pos_x[14], 0.5, pos_z[14]);
         Desenha_Barra(); // Barra 14
     glPopMatrix();
 
 
     glPushMatrix();
-    glTranslatef(pos_x, pos_y, pos_z2);
-        glScalef(1.0, 4.0, 1.0);
-        glTranslatef(-10.5, 0.5, 0.0);
-        Desenha_Barra(); // Barra 15
-    glPopMatrix();
-
-
-    glPushMatrix();
-    glTranslatef(pos_x, pos_y, pos_z);
+        pos_x[15] = -16.0;
         glScalef(1.0, 6.0, 1.0);
-        glTranslatef(-12.0, 0.5, 0.0);
-        Desenha_Barra(); // Barra 16
+        glTranslatef(pos_x[15], 0.5, pos_z[15]);
+        Desenha_Barra(); // Barra 15
     glPopMatrix();
 	/* Executa os comandos OpenGL */
 	glFlush();
 }
 void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
 {
-   if(pos_z<5 && pos_z2<5 && pos_z3<5){
-    pos_z = pos_z + 0.1;
-    pos_z2 = pos_z2 + 0.1;
-    pos_z3 = pos_z3 + 0.1;
+    passo = 1;
+ if( pos_z[0]<4){
+    for(int i = 0; i<16; i++){
+        pos_z[i] += 0.05;
+        if(i<8){
+            pos_x[i] += 0.5;
+        }else{
+            pos_x[i] -= 0.5;
+        }
+    }
+
+
 }
 
+
+
 	glutPostRedisplay();
-	glutTimerFunc(20, Anima, 1);
+	glutTimerFunc(30, Anima, 1);
 }
 /* Callback chamada quando o mouse é movido com
  * alguma tecla pressionada */
@@ -382,6 +416,10 @@ void Inicializa (void)
 /* Programa Principal */
 int main(int argc, char **argv)
 {
+     pos_x[0] = 0;
+    for(int i = 0; i<16; i++){
+        pos_z[i] = -4;
+    }
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize (LARGURA, ALTURA);
