@@ -13,10 +13,10 @@ double rotationY = 20.0;
 int last_press_x = 0;
 int last_press_y = 0;
 double pos_z[15];
-int pos_x[15];
+double pos_x[15];
+double pos_y[15];
 int passo = 1;
-int pos_y[15];
-double pos_z2 = 0;
+
 
 void Desenha_Origem()
 {
@@ -119,35 +119,35 @@ void ParametrosIluminacao()
 void Desenha_Barra(void){
     glBegin(GL_QUADS);        // Draw The Cube Using quads
             glColor3f(0.0f,1.0f,0.0f);    // Color Blue
-            glVertex3f( 0.5f, 0.5f,-0.5f);    // Top Right Of The Quad (Top)
-            glVertex3f(-0.5f, 0.5f,-0.5f);    // Top Left Of The Quad (Top)
-            glVertex3f(-0.5f, 0.5f, 0.5f);    // Bottom Left Of The Quad (Top)
-            glVertex3f( 0.5f, 0.5f, 0.5f);    // Bottom Right Of The Quad (Top)
+            glVertex3f( 0.2f, 0.2f,-0.2f);    // Top Right Of The Quad (Top)
+            glVertex3f(-0.2f, 0.2f,-0.2f);    // Top Left Of The Quad (Top)
+            glVertex3f(-0.2f, 0.2f, 0.2f);    // Bottom Left Of The Quad (Top)
+            glVertex3f( 0.2f, 0.2f, 0.2f);    // Bottom Right Of The Quad (Top)
             glColor3f(1.0f,0.5f,0.0f);    // Color Orange
-            glVertex3f( 0.5f,-0.5f, 0.5f);    // Top Right Of The Quad (Bottom)
-            glVertex3f(-0.5f,-0.5f, 0.5f);    // Top Left Of The Quad (Bottom)
-            glVertex3f(-0.5f,-0.5f,-0.5f);    // Bottom Left Of The Quad (Bottom)
-            glVertex3f( 0.5f,-0.5f,-0.5f);    // Bottom Right Of The Quad (Bottom)
+            glVertex3f( 0.2f,-0.2f, 0.2f);    // Top Right Of The Quad (Bottom)
+            glVertex3f(-0.2f,-0.2f, 0.2f);    // Top Left Of The Quad (Bottom)
+            glVertex3f(-0.2f,-0.2f,-0.2f);    // Bottom Left Of The Quad (Bottom)
+            glVertex3f( 0.2f,-0.2f,-0.2f);    // Bottom Right Of The Quad (Bottom)
             glColor3f(1.0f,0.0f,0.0f);    // Color Red
-            glVertex3f( 0.5, 0.5, 0.5);    // Top Right Of The Quad (Front)
-            glVertex3f(-0.5, 0.5, 0.5);    // Top Left Of The Quad (Front)
-            glVertex3f(-0.5,-0.5, 0.5);    // Bottom Left Of The Quad (Front)
-            glVertex3f( 0.5,-0.5, 0.5);    // Bottom Right Of The Quad (Front)
+            glVertex3f( 0.2, 0.2, 0.2);    // Top Right Of The Quad (Front)
+            glVertex3f(-0.2, 0.2, 0.2);    // Top Left Of The Quad (Front)
+            glVertex3f(-0.2,-0.2, 0.2);    // Bottom Left Of The Quad (Front)
+            glVertex3f( 0.2,-0.2, 0.2);    // Bottom Right Of The Quad (Front)
             glColor3f(1.0f,1.0f,0.0f);    // Color Yellow
-            glVertex3f( 0.5f,-0.5f,-0.5f);    // Top Right Of The Quad (Back)
-            glVertex3f(-0.5f,-0.5f,-0.5f);    // Top Left Of The Quad (Back)
-            glVertex3f(-0.5f, 0.5f,-0.5f);    // Bottom Left Of The Quad (Back)
-            glVertex3f( 0.5f, 0.5f,-0.5f);    // Bottom Right Of The Quad (Back)
+            glVertex3f( 0.2f,-0.2f,-0.2f);    // Top Right Of The Quad (Back)
+            glVertex3f(-0.2f,-0.2f,-0.2f);    // Top Left Of The Quad (Back)
+            glVertex3f(-0.2f, 0.2f,-0.2f);    // Bottom Left Of The Quad (Back)
+            glVertex3f( 0.2f, 0.2f,-0.2f);    // Bottom Right Of The Quad (Back)
             glColor3f(0.0f,0.0f,1.0f);    // Color Blue
-            glVertex3f(-0.5f, 0.5f, 0.5f);    // Top Right Of The Quad (Left)
-            glVertex3f(-0.5f, 0.5f,-0.5f);    // Top Left Of The Quad (Left)
-            glVertex3f(-0.5f,-0.5f,-0.5f);    // Bottom Left Of The Quad (Left)
-            glVertex3f(-0.5f,-0.5f, 0.5f);    // Bottom Right Of The Quad (Left)
+            glVertex3f(-0.2f, 0.2f, 0.2f);    // Top Right Of The Quad (Left)
+            glVertex3f(-0.2f, 0.2f,-0.2f);    // Top Left Of The Quad (Left)
+            glVertex3f(-0.2f,-0.2f,-0.2f);    // Bottom Left Of The Quad (Left)
+            glVertex3f(-0.2f,-0.2f, 0.2f);    // Bottom Right Of The Quad (Left)
             glColor3f(1.0f,0.0f,1.0f);    // Color Violet
-            glVertex3f( 0.5f, 0.5f,-0.5f);    // Top Right Of The Quad (Right)
-            glVertex3f( 0.5f, 0.5f, 0.5f);    // Top Left Of The Quad (Right)
-            glVertex3f( 0.5f,-0.5f, 0.5f);    // Bottom Left Of The Quad (Right)
-            glVertex3f( 0.5f,-0.5f,-0.5f);    // Bottom Right Of The Quad (Right)
+            glVertex3f( 0.2f, 0.2f,-0.2f);    // Top Right Of The Quad (Right)
+            glVertex3f( 0.2f, 0.2f, 0.2f);    // Top Left Of The Quad (Right)
+            glVertex3f( 0.2f,-0.2f, 0.2f);    // Bottom Left Of The Quad (Right)
+            glVertex3f( 0.2f,-0.2f,-0.2f);    // Bottom Right Of The Quad (Right)
     glEnd();            // End Drawing The Cube
 
 }
@@ -196,142 +196,330 @@ void Desenha(void)
 	//glutSolidTorus(1, 4, 20, 20);
     Desenha_Plano();
 
-	glPushMatrix();
-
-        glTranslatef(pos_x[0], 0.5, pos_z[0]);
-        Desenha_Barra(); // Barra 0
-	glPopMatrix();
-
-	glPushMatrix();
-        pos_x[1] = 2.0;
+    glPushMatrix();
         glScalef(1.0, 6.0, 1.0);
-        glTranslatef(pos_x[1], 0.5,pos_z[1]);
+        glTranslatef(pos_x[0], 0.2, pos_z[0]);
+        Desenha_Barra(); // Barra 0
+    glPopMatrix();
+
+    glPushMatrix();
+        glScalef(1.0, 4.0, 1.0);
+        glTranslatef(pos_x[1], 0.2, pos_z[1]);
         Desenha_Barra(); // Barra 1
     glPopMatrix();
 
     glPushMatrix();
-        pos_x[2] = 4.0;
-        glScalef(1.0, 5.0, 1.0);
-        glTranslatef(pos_x[2], 0.5, pos_z[2]);
+
+        glScalef(1.0, 1.0, 1.0);
+        glTranslatef(pos_x[2], 0.2, pos_z[2]);
         Desenha_Barra(); // Barra 2
     glPopMatrix();
 
      glPushMatrix();
-        pos_x[3] = 6.0;
-        glScalef(1.0, 8.0, 1.0);
-        glTranslatef(pos_x[3], 0.5, pos_z[3]);
+
+        glScalef(1.0, 7.0, 1.0);
+        glTranslatef( pos_x[3], 0.2, pos_z[3]);
         Desenha_Barra(); // Barra 3
     glPopMatrix();
 
-     glPushMatrix();
-        pos_x[4] = 8.0;
+    glPushMatrix();
+
         glScalef(1.0, 3.0, 1.0);
-        glTranslatef(pos_x[4], 0.5, pos_z[4]);
+        glTranslatef(pos_x[4], 0.2, pos_z[4]);
         Desenha_Barra(); // Barra 4
     glPopMatrix();
 
      glPushMatrix();
-        pos_x[5] = 10.0;
-        glScalef(1.0, 2.0, 1.0);
-        glTranslatef(pos_x[5], 0.5, pos_z[5]);
+
+        glScalef(1.0, 10.0, 1.0);
+        glTranslatef(pos_x[5], 0.2, pos_z[5]);
         Desenha_Barra(); // Barra 5
     glPopMatrix();
 
-     glPushMatrix();
-        pos_x[6] = 12.0;
-        glScalef(1.0, 2.0, 1.0);
-        glTranslatef(pos_x[6], 0.5, pos_z[6]);
+    glPushMatrix();
+
+        glScalef(1.0, 5.0, 1.0);
+        glTranslatef(pos_x[6], 0.2, pos_z[6]);
         Desenha_Barra(); // Barra 6
     glPopMatrix();
 
-     glPushMatrix();
-        pos_x[7] = 14.0;
-        glScalef(1.0, 1.0, 1.0);
-        glTranslatef(pos_x[7], 0.5, pos_z[7]);
+    glPushMatrix();
+
+        glScalef(1.0, 10.0, 1.0);
+        glTranslatef(pos_x[7], 0.2, pos_z[7]);
         Desenha_Barra(); // Barra 7
     glPopMatrix();
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-    glPushMatrix();
-        pos_x[8] = -2.0;
-        glScalef(1.0, 10.0, 1.0);
-        glTranslatef(pos_x[8], 0.5, pos_z[8]);
-        Desenha_Barra(); // Barra 8
-    glPopMatrix();
 
-    glPushMatrix();
-        pos_x[9] = -4.0;
-        glScalef(1.0, 5.0, 1.0);
-        glTranslatef(pos_x[9], 0.5, pos_z[9]);
+	glPushMatrix();
+
+        glTranslatef(pos_x[8], 0.2, pos_z[8]);
+        Desenha_Barra(); // Barra 8
+	glPopMatrix();
+
+	glPushMatrix();
+
+        glScalef(1.0, 10.0, 1.0);
+        glTranslatef(pos_x[9], 0.2,pos_z[9]);
+
         Desenha_Barra(); // Barra 9
     glPopMatrix();
 
-
     glPushMatrix();
-        pos_x[10] = -6.0;
-        glScalef(1.0, 10.0, 1.0);
-        glTranslatef(pos_x[10], 0.5, pos_z[10]);
-        Desenha_Barra(); // Barra 10
-    glPopMatrix();
 
-    glPushMatrix();
-        pos_x[11] = -8.0;
-        glScalef(1.0, 3.0, 1.0);
-        glTranslatef(pos_x[11], 0.5, pos_z[11]);
+       glScalef(1.0, 5.0, 1.0);
+       glTranslatef(pos_x[10], 0.2, pos_z[10]);
+       Desenha_Barra(); // Barra 10
+   glPopMatrix();
+
+     glPushMatrix();
+
+        glScalef(1.0, 8.0, 1.0);
+        glTranslatef(pos_x[11], 0.2, pos_z[11]);
         Desenha_Barra(); // Barra 11
     glPopMatrix();
 
-    glPushMatrix();
-     pos_x[12] = -10.0;
-        glScalef(1.0, 7.0, 1.0);
-        glTranslatef( pos_x[12], 0.5, pos_z[12]);
+     glPushMatrix();
+
+        glScalef(1.0, 3.0, 1.0);
+        glTranslatef(pos_x[12], 0.2, pos_z[12]);
         Desenha_Barra(); // Barra 12
     glPopMatrix();
 
-    glPushMatrix();
-     pos_x[13] = -12.0;
-        glScalef(1.0, 1.0, 1.0);
-        glTranslatef(pos_x[13], 0.5, pos_z[13]);
+     glPushMatrix();
+
+        glScalef(1.0, 2.0, 1.0);
+        glTranslatef(pos_x[13], 0.2, pos_z[13]);
         Desenha_Barra(); // Barra 13
     glPopMatrix();
 
+     glPushMatrix();
 
-    glPushMatrix();
-        pos_x[14] = -14.0;
-        glScalef(1.0, 4.0, 1.0);
-        glTranslatef(pos_x[14], 0.5, pos_z[14]);
+        glScalef(1.0, 2.0, 1.0);
+        glTranslatef(pos_x[14], 0.2, pos_z[14]);
         Desenha_Barra(); // Barra 14
     glPopMatrix();
 
+     glPushMatrix();
 
-    glPushMatrix();
-        pos_x[15] = -16.0;
-        glScalef(1.0, 6.0, 1.0);
-        glTranslatef(pos_x[15], 0.5, pos_z[15]);
+        glScalef(1.0, 1.0, 1.0);
+        glTranslatef(pos_x[15], 0.2, pos_z[15]);
         Desenha_Barra(); // Barra 15
     glPopMatrix();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	/* Executa os comandos OpenGL */
 	glFlush();
 }
 void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
 {
-    passo = 1;
- if( pos_z[0]<4){
+
+ if( pos_z[0]<0 && passo == 1){
     for(int i = 0; i<16; i++){
         pos_z[i] += 0.05;
-        if(i<8){
-            pos_x[i] += 0.5;
-        }else{
-            pos_x[i] -= 0.5;
-        }
+    }
+    if(pos_z[15] >= 0){
+         passo = 2;
     }
 
 
 }
 
+    if(pos_z[0]<2 && passo == 2){
+        for(int i = 0; i<8; i++){
+            pos_z[i] +=0.05;
+        }
+        if(pos_z[0] >= 2){
+            passo = 3;
+        }
+    }
+
+    if(pos_z[0]<4 && passo == 3){
+        for(int i = 0; i<4; i++){
+            pos_z[i] +=0.05;
+        }
+        if(pos_z[0] >= 4){
+            passo = 4;
+        }
+    }
+    if(pos_z[0]<6 && passo == 4){
+        for(int i = 0; i<2; i++){
+            pos_z[i] +=0.05;
+        }
+        if(pos_z[0] >= 6){
+            passo = 5;
+        }
+    }
 
 
+    if(pos_x[0]<-7.0 && passo == 5){
+            pos_x[0] += 0.02;
+            pos_x[1] -= 0.02;
+        if(pos_x[0]>=-7){
+            passo = 6;
+        }
+    }
+
+    if(pos_z[0]>4 && passo == 6){
+        pos_z[0] -= 0.05;
+        pos_z[1] -= 0.05;
+        if(pos_z[0]<=4){
+            passo = 7;
+        }
+    }
+
+    if(pos_z[2]<6 && passo == 7){
+        for(int i = 2; i<4; i++){
+            pos_z[i] +=0.05;
+        }
+        if(pos_z[2] >= 6){
+            passo = 8;
+        }
+    }
+    if(pos_z[2]>4 && passo == 8){
+        pos_z[2] -= 0.05;
+        pos_z[3] -= 0.05;
+        if(pos_z[2]<=4){
+            passo = 9;
+        }
+    }
+    if(pos_x[1]<-6.0  && passo == 9){
+            pos_x[1] += 0.02;
+            pos_x[2] -= 0.02;
+        if(pos_x[1]>=-6.0){
+            passo = 10;
+        }
+    }
+
+    if(pos_x[0]<-6.0  && passo == 10){
+            pos_x[0] += 0.02;
+            pos_x[1] -= 0.02;
+        if(pos_x[0]>=-6.0){
+            passo = 11;
+        }
+    }
+
+    if(pos_z[0]>2.0 && passo == 11){
+         for(int i = 0; i<4; i++){
+            pos_z[i] -=0.05;
+        }
+        if(pos_z[0]<= 2){
+            passo = 12;
+        }
+    }
+    if(pos_z[4]<4.0 && passo == 12){
+         for(int i = 4; i<8; i++){
+            pos_z[i] +=0.05;
+        }
+        if(pos_z[4]>= 4){
+            passo = 13;
+        }
+    }
+
+    if(pos_z[4]<6.0 && passo == 13){
+         pos_z[4] +=0.05;
+         pos_z[5] +=0.05;
+
+        if(pos_z[4]>= 6){
+            passo = 14;
+        }
+    }
+
+    if(pos_z[4]>4.0 && passo == 14){
+         pos_z[4] -=0.05;
+         pos_z[5] -=0.05;
+
+        if(pos_z[4]<=4){
+            passo = 15;
+        }
+    }
+
+    if(pos_z[6]<6.0 && passo == 15){
+         pos_z[6] +=0.05;
+         pos_z[7] +=0.05;
+
+        if(pos_z[6]>=6){
+            passo = 16;
+        }
+    }
+
+    if(pos_z[6]>4.0 && passo == 16){
+         pos_z[6] -=0.05;
+         pos_z[7] -=0.05;
+
+        if(pos_z[6]<=4){
+            passo = 17;
+        }
+    }
+    if(pos_x[5]<-2.0  && passo == 17){
+            pos_x[5] += 0.02;
+            pos_x[6] -= 0.02;
+        if(pos_x[5]>=-2.0){
+            passo = 18;
+        }
+    }
+    if(pos_z[4]>2.0 && passo == 18){
+         for(int i = 4; i<8; i++){
+            pos_z[i] -=0.05;
+        }
+        if(pos_z[4]<= 2){
+            passo = 19;
+        }
+    }
+
+    if(pos_x[1]<-4.0  && passo == 19){
+            pos_x[1] += 0.02;
+            pos_x[4] -= 0.02;
+        if(pos_x[1]>=-4.0){
+            passo = 20;
+        }
+    }
+    if(pos_x[0]<-4.0  && passo == 20){
+            pos_x[0] += 0.02;
+            pos_x[1] -= 0.02;
+        if(pos_x[0]>=-4.0){
+            passo = 21;
+        }
+    }
+    if(pos_x[3]<-4.0  && passo == 21){
+            pos_x[3] += 0.02;
+            pos_x[0] -= 0.02;
+        if(pos_x[3]>=-4.0){
+            passo = 22;
+        }
+    }
+    if(pos_x[3]<-3.0 && passo == 22){
+            pos_x[3] += 0.02;
+            pos_x[6] -= 0.02;
+        if(pos_x[3]>=-3.0){
+            passo = 23;
+        }
+    }
+    if(pos_x[0]<-4.0  && passo == 23){
+            pos_x[0] += 0.02;
+            pos_x[6] -= 0.02;
+        if(pos_x[0]>=-4.0){
+            passo = 24;
+        }
+    }
 	glutPostRedisplay();
-	glutTimerFunc(30, Anima, 1);
+	glutTimerFunc(10, Anima, 1);
 }
 /* Callback chamada quando o mouse é movido com
  * alguma tecla pressionada */
@@ -416,9 +604,12 @@ void Inicializa (void)
 /* Programa Principal */
 int main(int argc, char **argv)
 {
+    int j = -8;
      pos_x[0] = 0;
     for(int i = 0; i<16; i++){
+        pos_x[i] = j;
         pos_z[i] = -4;
+        j++;
     }
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH);
@@ -430,6 +621,6 @@ int main(int argc, char **argv)
 	glutMotionFunc(Mouse_Motion);
 	Inicializa();
 	CriarMenu();
-	glutTimerFunc(100, Anima, 1);
+	glutTimerFunc(100, Anima, 10);
 	glutMainLoop();
 }
