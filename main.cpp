@@ -381,8 +381,8 @@ void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
     if(pos_z[0]<6 && passo == 4){
         for(int i = 0; i<2; i++){
             pos_z[i] +=0.05;
-            color1[i] = 1;
-            color2[i] = 0;
+            color1[i] = 0;
+            color2[i] = 1;
             color3[i] = 1;
         }
 
@@ -403,6 +403,11 @@ void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
     if(pos_z[0]>4 && passo == 6){
         pos_z[0] -= 0.05;
         pos_z[1] -= 0.05;
+        for(int i = 0; i<2; i++){
+            color1[i] = 1;
+            color2[i] = 1;
+            color3[i] = 0;
+        }
         if(pos_z[0]<=4){
             passo = 7;
         }
@@ -411,6 +416,9 @@ void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
     if(pos_z[2]<6 && passo == 7){
         for(int i = 2; i<4; i++){
             pos_z[i] +=0.05;
+            color1[i] = 0;
+            color2[i] = 1;
+            color3[i] = 1;
         }
         if(pos_z[2] >= 6){
             passo = 8;
@@ -419,6 +427,11 @@ void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
     if(pos_z[2]>4 && passo == 8){
         pos_z[2] -= 0.05;
         pos_z[3] -= 0.05;
+        for(int i = 2; i<4; i++){
+            color1[i] = 1;
+            color2[i] = 1;
+            color3[i] = 0;
+        }
         if(pos_z[2]<=4){
             passo = 9;
         }
@@ -442,6 +455,9 @@ void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
     if(pos_z[0]>2.0 && passo == 11){
          for(int i = 0; i<4; i++){
             pos_z[i] -=0.05;
+            color1[i] = 1;
+            color2[i] = 0;
+            color3[i] = 0;
         }
         if(pos_z[0]<= 2){
             passo = 12;
@@ -450,6 +466,9 @@ void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
     if(pos_z[4]<4.0 && passo == 12){
          for(int i = 4; i<8; i++){
             pos_z[i] +=0.05;
+            color1[i] = 1;
+            color2[i] = 1;
+            color3[i] = 0;
         }
         if(pos_z[4]>= 4){
             passo = 13;
@@ -459,6 +478,11 @@ void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
     if(pos_z[4]<6.0 && passo == 13){
          pos_z[4] +=0.05;
          pos_z[5] +=0.05;
+         for(int i = 4; i<6; i++){
+            color1[i] = 0;
+            color2[i] = 1;
+            color3[i] = 1;
+        }
 
         if(pos_z[4]>= 6){
             passo = 14;
@@ -468,15 +492,25 @@ void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
     if(pos_z[4]>4.0 && passo == 14){
          pos_z[4] -=0.05;
          pos_z[5] -=0.05;
+         for(int i = 4; i<6; i++){
+            color1[i] = 1;
+            color2[i] = 1;
+            color3[i] = 0;
+        }
 
         if(pos_z[4]<=4){
             passo = 15;
         }
-    }
 
+    }
     if(pos_z[6]<6.0 && passo == 15){
          pos_z[6] +=0.05;
          pos_z[7] +=0.05;
+         for(int i = 6; i<8; i++){
+            color1[i] = 0;
+            color2[i] = 1;
+            color3[i] = 1;
+        }
 
         if(pos_z[6]>=6){
             passo = 16;
@@ -486,6 +520,11 @@ void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
     if(pos_z[6]>4.0 && passo == 16){
          pos_z[6] -=0.05;
          pos_z[7] -=0.05;
+         for(int i = 6; i<8; i++){
+            color1[i] = 1;
+            color2[i] = 1;
+            color3[i] = 0;
+        }
 
         if(pos_z[6]<=4){
             passo = 17;
@@ -501,6 +540,9 @@ void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
     if(pos_z[4]>2.0 && passo == 18){
          for(int i = 4; i<8; i++){
             pos_z[i] -=0.05;
+            color1[i] = 1;
+            color2[i] = 0;
+            color3[i] = 0;
         }
         if(pos_z[4]<= 2){
             passo = 19;
@@ -531,14 +573,28 @@ void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
     if(pos_z[0]>0  && passo == 22){
         for(int i = 0; i<8; i++){
             pos_z[i] -=0.05;
+            color1[i] = 0.8;
+            color2[i] = 0.8;
+            color3[i] = 0.8;
         }
-         if(pos_x[0]>=0){
+         if(pos_z[0]<=0){
             passo = 23;
+        }
+    }
+    if(pos_z[8]<2  && passo == 23){
+        for(int i = 8; i<16; i++){
+            pos_z[i] +=0.05;
+            color1[i] = 0;
+            color2[i] = 1;
+            color3[i] = 0;
+        }
+         if(pos_z[8]>=2){
+            passo = 24;
         }
     }
 
 	glutPostRedisplay();
-	glutTimerFunc(30, Anima, 1);
+	glutTimerFunc(15, Anima, 1);
 }
 /* Callback chamada quando o mouse é movido com
  * alguma tecla pressionada */
@@ -600,7 +656,7 @@ void CriarMenu()
 void Inicializa (void)
 {
     /* Define a cor de fundo da janela de visualização como branca */
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.1f, 1.0f);
 
     /* Modo de projecao ortogonal (Default) */
     glMatrixMode(GL_PROJECTION);
