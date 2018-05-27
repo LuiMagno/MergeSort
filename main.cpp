@@ -155,6 +155,45 @@ void Desenha_Plano(void){
         glVertex3f(-30.0f,0.0f,-30.0f);    // Bottom Left Of The Quad (Bottom)
         glVertex3f( 30.0f,0.0f,-30.0f);    // Bottom Right Of The Quad (Bottom)
   glEnd();
+  /* Desenha Eixo +X2 */
+	glColor3f(1, 0.0, 0.0); /* BLUE */
+	glBegin(GL_LINES);
+		glVertex3i(0, 0, 2);
+		glVertex3i(LARGURA/2, 0, 2);
+	glEnd();
+
+	/* Desenha Eixo -X2 */
+	glColor3f(1, 0, 0); /* BLUE claro */
+	glBegin(GL_LINES);
+		glVertex3i(0, 0, 2);
+		glVertex3i(-LARGURA/2, 0, 2);
+	glEnd();
+	 /* Desenha Eixo +X3 */
+	glColor3f(1, 1.0, 0.0); /* BLUE */
+	glBegin(GL_LINES);
+		glVertex3i(0, 0, 4);
+		glVertex3i(LARGURA/2, 0, 4);
+	glEnd();
+
+	/* Desenha Eixo -X3 */
+	glColor3f(1, 1, 0); /* BLUE claro */
+	glBegin(GL_LINES);
+		glVertex3i(0, 0, 4);
+		glVertex3i(-LARGURA/2, 0, 4);
+	glEnd();
+	 /* Desenha Eixo +X4 */
+	glColor3f(0, 1.0, 1.0); /* BLUE */
+	glBegin(GL_LINES);
+		glVertex3i(0, 0, 6);
+		glVertex3i(LARGURA/2, 0, 6);
+	glEnd();
+
+	/* Desenha Eixo -X4 */
+	glColor3f(0, 1, 1); /* BLUE claro */
+	glBegin(GL_LINES);
+		glVertex3i(0, 0, 6);
+		glVertex3i(-LARGURA/2, 0, 6);
+	glEnd();
 
 
 
@@ -318,24 +357,6 @@ void Desenha(void)
         Desenha_Barra(); // Barra 15
     glPopMatrix();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	/* Executa os comandos OpenGL */
 	glFlush();
 }
@@ -395,8 +416,18 @@ void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
     if(pos_x[0]<-7.0 && passo == 5){
             pos_x[0] += 0.02;
             pos_x[1] -= 0.02;
+            for(int i = 0; i<2; i++){
+                color1[i] = 1;
+                color2[i] = 1;
+                color3[i] = 1;
+        }
         if(pos_x[0]>=-7){
             passo = 6;
+            for(int i = 0; i<2; i++){
+                color1[i] = 0;
+                color2[i] = 1;
+                color3[i] = 1;
+            }
         }
     }
 
@@ -439,15 +470,35 @@ void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
     if(pos_x[1]<-6.0  && passo == 9){
             pos_x[1] += 0.02;
             pos_x[2] -= 0.02;
+            for(int i = 1; i<3; i++){
+                color1[i] = 1;
+                color2[i] = 1;
+                color3[i] = 1;
+            }
         if(pos_x[1]>=-6.0){
             passo = 10;
+            for(int i = 1; i<3; i++){
+                color1[i] = 1;
+                color2[i] = 1;
+                color3[i] = 0;
+            }
         }
     }
 
     if(pos_x[0]<-6.0  && passo == 10){
             pos_x[0] += 0.02;
             pos_x[1] -= 0.02;
+            for(int i = 0; i<2; i++){
+                color1[i] = 1;
+                color2[i] = 1;
+                color3[i] = 1;
+            }
         if(pos_x[0]>=-6.0){
+            for(int i = 0; i<2; i++){
+               color1[i] = 1;
+               color2[i] = 1;
+               color3[i] = 0;
+            }
             passo = 11;
         }
     }
@@ -533,8 +584,18 @@ void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
     if(pos_x[5]<-2.0  && passo == 17){
             pos_x[5] += 0.02;
             pos_x[6] -= 0.02;
+            for(int i = 5; i<7; i++){
+                color1[i] = 1;
+                color2[i] = 1;
+                color3[i] = 1;
+            }
         if(pos_x[5]>=-2.0){
             passo = 18;
+            for(int i = 5; i<7; i++){
+                color1[i] = 1;
+                color2[i] = 1;
+                color3[i] = 0;
+            }
         }
     }
     if(pos_z[4]>2.0 && passo == 18){
@@ -552,30 +613,68 @@ void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
     if(pos_x[1]<-4.0  && passo == 19){
             pos_x[1] += 0.02;
             pos_x[4] -= 0.02;
+            for(int i = 1; i<5; i++){
+                if(i==1 || i==4){
+                    color1[i] = 1;
+                    color2[i] = 1;
+                    color3[i] = 1;
+                }
+            }
         if(pos_x[1]>=-4.0){
             passo = 20;
+            for(int i = 1; i<5; i++){
+                if(i==1 || i==4){
+                    color1[i] = 1;
+                    color2[i] = 0;
+                    color3[i] = 0;
+                }
+            }
         }
     }
     if(pos_x[0]<-4.0  && passo == 20){
             pos_x[0] += 0.02;
             pos_x[1] -= 0.02;
+            for(int i = 0; i<2; i++){
+                    color1[i] = 1;
+                    color2[i] = 1;
+                    color3[i] = 1;
+            }
         if(pos_x[0]>=-4.0){
             passo = 21;
+            for(int i = 0; i<2; i++){
+                    color1[i] = 1;
+                    color2[i] = 0;
+                    color3[i] = 0;
+            }
         }
     }
     if(pos_x[3]<-3.0  && passo == 21){
             pos_x[3] += 0.02;
             pos_x[6] -= 0.02;
+            for(int i = 3; i<7; i++){
+                if(i==3 || i==6){
+                    color1[i] = 1;
+                    color2[i] = 1;
+                    color3[i] = 1;
+                }
+            }
         if(pos_x[3]>=-3.0){
             passo = 22;
+            for(int i = 3; i<7; i++){
+                if(i==3 || i==6){
+                    color1[i] = 1;
+                    color2[i] = 0;
+                    color3[i] = 0;
+                }
+            }
         }
     }
     if(pos_z[0]>0  && passo == 22){
         for(int i = 0; i<8; i++){
             pos_z[i] -=0.05;
-            color1[i] = 0.8;
-            color2[i] = 0.8;
-            color3[i] = 0.8;
+            color1[i] = 0;
+            color2[i] = 1;
+            color3[i] = 0;
         }
          if(pos_z[0]<=0){
             passo = 23;
@@ -584,8 +683,8 @@ void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
     if(pos_z[8]<2  && passo == 23){
         for(int i = 8; i<16; i++){
             pos_z[i] +=0.05;
-            color1[i] = 0;
-            color2[i] = 1;
+            color1[i] = 1;
+            color2[i] = 0;
             color3[i] = 0;
         }
          if(pos_z[8]>=2){
@@ -593,8 +692,416 @@ void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
         }
     }
 
+    if(pos_z[8]<4  && passo == 24){
+        for(int i = 8; i<12; i++){
+            pos_z[i] +=0.05;
+            color1[i] = 1;
+            color2[i] = 1;
+            color3[i] = 0;
+        }
+         if(pos_z[8]>=4){
+            passo = 25;
+        }
+    }
+    if(pos_z[8]<6  && passo == 25){
+        for(int i = 8; i<10; i++){
+            pos_z[i] +=0.05;
+            color1[i] = 0;
+            color2[i] = 1;
+            color3[i] = 1;
+        }
+         if(pos_z[8]>=6){
+            passo = 26;
+        }
+    }
+    if(pos_z[8]>4  && passo == 26){
+        for(int i = 8; i<10; i++){
+            pos_z[i] -=0.05;
+            color1[i] = 1;
+            color2[i] = 1;
+            color3[i] = 0;
+        }
+         if(pos_z[8]<=4){
+            passo = 27;
+        }
+    }
+    if(pos_z[10]<6  && passo == 27){
+        for(int i = 10; i<12; i++){
+            pos_z[i] +=0.05;
+            color1[i] = 0;
+            color2[i] = 1;
+            color3[i] = 1;
+        }
+         if(pos_z[10]>=6){
+            passo = 28;
+        }
+    }
+    if(pos_z[10]>4  && passo == 28){
+        for(int i = 10; i<12; i++){
+            pos_z[i] -=0.05;
+            color1[i] = 1;
+            color2[i] = 1;
+            color3[i] = 0;
+        }
+         if(pos_z[10]<=4){
+            passo = 29;
+        }
+    }
+      if(pos_x[9]<2  && passo == 29){
+            pos_x[9] += 0.02;
+            pos_x[10] -= 0.02;
+            for(int i = 9; i<11; i++){
+                color1[i] = 1;
+                color2[i] = 1;
+                color3[i] = 1;
+            }
+        if(pos_x[9]>=2){
+            passo = 30;
+            for(int i = 9; i<11; i++){
+                color1[i] = 1;
+                color2[i] = 1;
+                color3[i] = 0;
+            }
+        }
+    }
+    if(pos_x[9]<3  && passo == 30){
+            pos_x[9] += 0.02;
+            pos_x[11] -= 0.02;
+            for(int i = 9; i<12; i++){
+                if(i==9 || i==11){
+                    color1[i] = 1;
+                    color2[i] = 1;
+                    color3[i] = 1;
+                }
+            }
+        if(pos_x[9]>=3){
+            passo = 31;
+            for(int i = 9; i<12; i++){
+                if(i==9 || i==11){
+                    color1[i] = 1;
+                    color2[i] = 1;
+                    color3[i] = 0;
+                }
+            }
+        }
+    }
+    if(pos_z[8]>2  && passo == 31){
+        for(int i = 8; i<12; i++){
+            pos_z[i] -=0.05;
+            color1[i] = 1;
+            color2[i] = 0;
+            color3[i] = 0;
+        }
+         if(pos_z[8]<=2){
+            passo = 32;
+        }
+    }
+    if(pos_z[12]<4  && passo == 32){
+        for(int i = 12; i<16; i++){
+            pos_z[i] +=0.05;
+            color1[i] = 1;
+            color2[i] = 1;
+            color3[i] = 0;
+        }
+         if(pos_z[12]>=4){
+            passo = 33;
+        }
+    }
+    if(pos_z[12]<6  && passo == 33){
+        for(int i = 12; i<14; i++){
+            pos_z[i] +=0.05;
+            color1[i] = 0;
+            color2[i] = 1;
+            color3[i] = 1;
+        }
+         if(pos_z[12]>=6){
+            passo = 34;
+        }
+    }
+    if(pos_z[12]>4  && passo == 34){
+        for(int i = 12; i<14; i++){
+            pos_z[i] -=0.05;
+            color1[i] = 1;
+            color2[i] = 1;
+            color3[i] = 0;
+        }
+         if(pos_z[12]<=4){
+            passo = 35;
+        }
+    }
+    if(pos_z[14]<6  && passo == 35){
+        for(int i = 14; i<16; i++){
+            pos_z[i] +=0.05;
+            color1[i] = 0;
+            color2[i] = 1;
+            color3[i] = 1;
+        }
+         if(pos_z[14]>=6){
+            passo = 36;
+        }
+    }
+    if(pos_z[14]>4  && passo == 36){
+        for(int i = 14; i<16; i++){
+            pos_z[i] -=0.05;
+            color1[i] = 1;
+            color2[i] = 1;
+            color3[i] = 0;
+        }
+         if(pos_z[14]<=4){
+            passo = 37;
+        }
+    }
+    if(pos_z[12]>2  && passo == 37){
+        for(int i = 12; i<16; i++){
+            pos_z[i] -=0.05;
+            color1[i] = 1;
+            color2[i] = 0;
+            color3[i] = 0;
+        }
+         if(pos_z[12]<=2){
+            passo = 38;
+        }
+    }
+     if(pos_x[11]<4  && passo == 38){
+            pos_x[11] += 0.02;
+            pos_x[12] -= 0.02;
+            for(int i = 11; i<13; i++){
+                color1[i] = 1;
+                color2[i] = 1;
+                color3[i] = 1;
+            }
+        if(pos_x[11]>=4){
+            passo = 39;
+            for(int i = 11; i<13; i++){
+                color1[i] = 1;
+                color2[i] = 0;
+                color3[i] = 0;
+            }
+        }
+    }
+    if(pos_x[9]<4  && passo == 39){
+            pos_x[9] += 0.02;
+            pos_x[11] -= 0.02;
+            for(int i = 9; i<12; i++){
+                if(i==9 || i==11){
+                    color1[i] = 1;
+                    color2[i] = 1;
+                    color3[i] = 1;
+                }
+            }
+        if(pos_x[9]>=4){
+            passo = 40;
+            for(int i = 9; i<12; i++){
+                if(i==9 || i==11){
+                    color1[i] = 1;
+                    color2[i] = 0;
+                    color3[i] = 0;
+                }
+            }
+        }
+    }
+     if(pos_x[9]<5  && passo == 40){
+            pos_x[9] += 0.02;
+            pos_x[13] -= 0.02;
+            for(int i = 9; i<14; i++){
+                if(i==9 || i==13){
+                    color1[i] = 1;
+                    color2[i] = 1;
+                    color3[i] = 1;
+                }
+            }
+        if(pos_x[9]>=5){
+            passo = 41;
+            for(int i = 9; i<14; i++){
+                if(i==9 || i==13){
+                    color1[i] = 1;
+                    color2[i] = 0;
+                    color3[i] = 0;
+                }
+            }
+        }
+    }
+    if(pos_z[8]>0  && passo == 41){
+        for(int i = 8; i<16; i++){
+            pos_z[i] -=0.05;
+            color1[i] = 0;
+            color2[i] = 1;
+            color3[i] = 0;
+        }
+         if(pos_z[8]<=0){
+            passo = 42;
+        }
+    }
+    if(pos_x[6]<0  && passo == 42){
+            pos_x[6] += 0.02;
+            pos_x[8] -= 0.02;
+            for(int i = 6; i<9; i++){
+                if(i==6 || i==8){
+                    color1[i] = 1;
+                    color2[i] = 1;
+                    color3[i] = 1;
+                }
+            }
+        if(pos_x[6]>=0){
+            passo = 43;
+            for(int i = 6; i<9; i++){
+                if(i==6 || i==8){
+                    color1[i] = 0;
+                    color2[i] = 1;
+                    color3[i] = 0;
+                }
+            }
+        }
+    }
+     if(pos_x[0]<0  && passo == 43){
+            pos_x[0] += 0.02;
+            pos_x[6] -= 0.02;
+            for(int i = 0; i<7; i++){
+                if(i==0 || i==6){
+                    color1[i] = 1;
+                    color2[i] = 1;
+                    color3[i] = 1;
+                }
+            }
+        if(pos_x[0]>=0){
+            passo = 44;
+            for(int i = 0; i<7; i++){
+                if(i==0 || i==6){
+                    color1[i] = 0;
+                    color2[i] = 1;
+                    color3[i] = 0;
+                }
+            }
+        }
+    }
+    if(pos_x[3]<1  && passo == 44){
+            pos_x[3] += 0.02;
+            pos_x[10] -= 0.02;
+            for(int i = 3; i<11; i++){
+                if(i==3 || i==10){
+                    color1[i] = 1;
+                    color2[i] = 1;
+                    color3[i] = 1;
+                }
+            }
+        if(pos_x[3]>=1){
+            passo = 45;
+            for(int i = 3; i<11; i++){
+                if(i==3 || i==10){
+                    color1[i] = 0;
+                    color2[i] = 1;
+                    color3[i] = 0;
+                }
+            }
+        }
+    }
+    if(pos_x[5]<0  && passo == 45){
+            pos_x[5] += 0.02;
+            pos_x[0] -= 0.02;
+            for(int i = 0; i<6; i++){
+                if(i==0 || i==5){
+                    color1[i] = 1;
+                    color2[i] = 1;
+                    color3[i] = 1;
+                }
+            }
+        if(pos_x[5]>=0){
+            passo = 46;
+            for(int i = 0; i<6; i++){
+                if(i==0 || i==5){
+                    color1[i] = 0;
+                    color2[i] = 1;
+                    color3[i] = 0;
+                }
+            }
+        }
+    }
+     if(pos_x[7]<1  && passo == 46){
+            pos_x[7] += 0.02;
+            pos_x[3] -= 0.02;
+            for(int i = 3; i<8; i++){
+                if(i==3 || i==7){
+                    color1[i] = 1;
+                    color2[i] = 1;
+                    color3[i] = 1;
+                }
+            }
+        if(pos_x[7]>=1){
+            passo = 47;
+            for(int i = 3; i<8; i++){
+                if(i==3 || i==7){
+                    color1[i] = 0;
+                    color2[i] = 1;
+                    color3[i] = 0;
+                }
+            }
+        }
+    }
+    if(pos_x[5]<2  && passo == 47){
+            pos_x[5] += 0.02;
+            pos_x[12] -= 0.02;
+            for(int i = 5; i<13; i++){
+                if(i==5 || i==12){
+                    color1[i] = 1;
+                    color2[i] = 1;
+                    color3[i] = 1;
+                }
+            }
+        if(pos_x[5]>=2){
+            passo = 48;
+            for(int i = 5; i<13; i++){
+                if(i==5 || i==12){
+                    color1[i] = 0;
+                    color2[i] = 1;
+                    color3[i] = 0;
+                }
+            }
+        }
+    }
+      if(pos_x[7]<3  && passo == 48){
+            pos_x[7] += 0.02;
+            pos_x[11] -= 0.02;
+            for(int i = 7; i<12; i++){
+                if(i==7 || i==11){
+                    color1[i] = 1;
+                    color2[i] = 1;
+                    color3[i] = 1;
+                }
+            }
+        if(pos_x[7]>=3){
+            passo = 49;
+            for(int i = 7; i<12; i++){
+                if(i==7 || i==11){
+                    color1[i] = 0;
+                    color2[i] = 1;
+                    color3[i] = 0;
+                }
+            }
+        }
+    }
+    if(pos_x[5]<4  && passo == 49){
+            pos_x[5] += 0.02;
+            pos_x[13] -= 0.02;
+            for(int i = 5; i<14; i++){
+                if(i==5 || i==13){
+                    color1[i] = 1;
+                    color2[i] = 1;
+                    color3[i] = 1;
+                }
+            }
+        if(pos_x[5]>=4){
+            for(int i = 5; i<14; i++){
+                if(i==5 || i==13){
+                    color1[i] = 0;
+                    color2[i] = 1;
+                    color3[i] = 0;
+                }
+            }
+        }
+    }
+
 	glutPostRedisplay();
-	glutTimerFunc(15, Anima, 1);
+	glutTimerFunc(2, Anima, 1);
 }
 /* Callback chamada quando o mouse é movido com
  * alguma tecla pressionada */
@@ -685,9 +1192,9 @@ int main(int argc, char **argv)
     for(int i = 0; i<16; i++){
         pos_x[i] = j;
         pos_z[i] = -4;
-        color1[i] = 0.8;
-        color2[i] = 0.8;
-        color3[i] = 0.8;
+        color1[i] = 0;
+        color2[i] = 1;
+        color3[i] = 0;
         j++;
     }
 
