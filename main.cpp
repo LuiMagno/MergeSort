@@ -23,6 +23,7 @@ float color3[15];
 int velocidade = 50;
 int passo = 1;
 int olhoCamera = 40;
+int rotY[15];
 
 void Desenha_Origem()
 {
@@ -242,6 +243,7 @@ void Desenha(void)
         glScalef(1.0, 6.0, 1.0);
    //    glRotated(70, 1, 0, 0);
         glTranslatef(pos_x[0], 0.2, pos_z[0]);
+        glRotatef(,0, 10,0);
         glColor3d(color1[0], color2[0], color3[0]);
         Desenha_Barra(); // Barra 0
     glPopMatrix();
