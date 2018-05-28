@@ -20,9 +20,9 @@ float color1[15];
 float color2[15];
 float color3[15];
 
-
+int velocidade = 50;
 int passo = 1;
-
+int olhoCamera = 40;
 
 void Desenha_Origem()
 {
@@ -86,30 +86,35 @@ void Desenha_Eixos_Coordenados()
 void ParametrosIluminacao()
 {
 	/* Parâmetros para a Luz GL_LIGHT0 sendo uma fonte de Luz Pontual */
-	GLfloat luzAmbiente[4]={0.0, 0.0, 1.0, 1.0};	/* cor azul */
-	GLfloat luzDifusa[4]={1.0, 1.0, 1.0, 1.0};	  	/* cor branca */
-	GLfloat luzEspecular[4]={1.0, 1.0, 1.0, 1.0}; 	/* cor branca - brilho */
-	GLfloat posicaoLuz[4]={0.0, 50.0, 50.0, 1.0};	/* Fonte de Luz Pontual */
+	GLfloat luzAmbiente[4]={0.2, 0.2, 0.6, 1.0};
+    GLfloat luzDifusa[4]={1.0, 1.0, 0.0, 1.0};
+    GLfloat luzEspecular[4]={0.1, 0.1, 0.2, 1.0};
+    GLfloat posicaoLuz[4]={0.0, 5.0, 10.0, 1.0};    /* Fonte de Luz Pontual */
 
-	/* Define os parâmetros da luz de número 0 (Luz Pontual) */
-	glLightfv(GL_LIGHT0, GL_AMBIENT, luzAmbiente);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, luzDifusa );
-	glLightfv(GL_LIGHT0, GL_SPECULAR, luzEspecular );
-	glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz );
 
-	/* Ativa o uso de uma fonte de luz ambiente */
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzAmbiente);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, luzAmbiente);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, luzDifusa );
+    glLightfv(GL_LIGHT0, GL_SPECULAR, luzEspecular );
+    glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz );
 
-	/* Características do material */
-	GLfloat ka[4]={0.11, 0.06, 0.11, 1.0};		/* Reflete porcentagens da cor ambiente */
-	GLfloat kd[4]={0.4, 0.4, 0.7, 1.0};		/* Reflete porcentagens da cor difusa */
-	GLfloat ks[4]={1.0, 1.0, 1.0, 1.0};		/* Reflete porcentagens da cor especular */
-	GLfloat shininess = 60.0;
 
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ka);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, kd);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, ks); /* Refletância do material */
-	glMaterialf(GL_FRONT, GL_SHININESS, shininess);   /* Concentração do brilho */
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzAmbiente);
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, posicaoLuz);
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzDifusa);
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzEspecular);
+
+
+
+    /* Características do material */
+    GLfloat ka[4]={0.11, 0.06, 0.11, 1.0};
+    GLfloat kd[4]={0.4, 0.4, 0.7, 1.0};
+    GLfloat ks[4]={1.0, 1.0, 1.0, 1.0};
+    GLfloat shininess = 60.0;
+
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ka);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, kd);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, ks);
+    glMaterialf(GL_FRONT, GL_SHININESS, shininess);
 }
 void Desenha_Barra(void){
     glBegin(GL_QUADS);        // Draw The Cube Using quads
@@ -155,6 +160,19 @@ void Desenha_Plano(void){
         glVertex3f(-30.0f,0.0f,-30.0f);    // Bottom Left Of The Quad (Bottom)
         glVertex3f( 30.0f,0.0f,-30.0f);    // Bottom Right Of The Quad (Bottom)
   glEnd();
+
+  /* Desenha Eixo +X */
+	glColor3f(0.0, 1.0, 0.0); /* BLUE */
+	glBegin(GL_LINES);
+		glVertex3i(0, 0, 0);
+		glVertex3i(LARGURA/2, 0, 0);
+	glEnd();
+	/* Desenha Eixo -X */
+	glColor3f(0.0, 1.0, 0.0); /* BLUE claro */
+	glBegin(GL_LINES);
+		glVertex3i(0, 0, 0);
+		glVertex3i(-LARGURA/2, 0, 0);
+	glEnd();
   /* Desenha Eixo +X2 */
 	glColor3f(1, 0.0, 0.0); /* BLUE */
 	glBegin(GL_LINES);
@@ -211,7 +229,7 @@ void Desenha(void)
      * olhar = (0, 0, 0)
      * up = (0, 1, 0) */
     glLoadIdentity();
-    gluLookAt(0.0, 0.0, 40.0,		/* eye */
+    gluLookAt(0.0, 0.0, olhoCamera,		/* eye */
     		  0.0, 0.0, -30.0,		/* look */
     		  0.0, 1.0, 0.0);		/* up */
 
@@ -222,7 +240,7 @@ void Desenha(void)
 	glRotatef(rotationX, 0.0, 1.0, 0.0); /* Rotaciona em torno de Y */
 
 	Desenha_Origem();
-	Desenha_Eixos_Coordenados();
+//	Desenha_Eixos_Coordenados();
 
 	//glColor3f(1.0, 0.0, 0.0);
 	//Desenha_Face_Superior_Cubo();
@@ -234,6 +252,7 @@ void Desenha(void)
 
     glPushMatrix();
         glScalef(1.0, 6.0, 1.0);
+   //    glRotated(70, 1, 0, 0);
         glTranslatef(pos_x[0], 0.2, pos_z[0]);
         glColor3d(color1[0], color2[0], color3[0]);
         Desenha_Barra(); // Barra 0
@@ -1096,15 +1115,40 @@ void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
                     color2[i] = 1;
                     color3[i] = 0;
                 }
+                passo=50;
             }
         }
     }
 
 	glutPostRedisplay();
-	glutTimerFunc(2, Anima, 1);
+	glutTimerFunc(velocidade, Anima, 1);
 }
 /* Callback chamada quando o mouse é movido com
  * alguma tecla pressionada */
+
+ static void key(unsigned char key, int x, int y)
+{
+    switch (key)
+    {
+
+        case 'q':
+            exit(0);
+            break;
+        case '+': // aumentando a velocidade
+            velocidade--;
+            break;
+        case '-': // diminuindo a velocidade
+            velocidade++;
+            break;
+        case 'a': // aumentando distância do olho
+            olhoCamera++;
+            break;
+        case 'd': // diminuindo distância do olho
+            olhoCamera--;
+            break;
+        glutPostRedisplay();
+    }
+}
 void Mouse_Motion(int x, int y)
 {
 	/* Se o mouse é movido para a esquerda, rotationX é decrementado
@@ -1154,6 +1198,7 @@ void CriarMenu()
 	/* Cria entradas nesse menu */
 	glutAddMenuEntry("Modelo FLAT", 0);
 	glutAddMenuEntry("Modelo Gouraud", 1);
+	glutAddMenuEntry("Começar", 1);
 
 	/* Indica qual o botao que acionará o menu */
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
@@ -1173,9 +1218,9 @@ void Inicializa (void)
 
     /*************** Parâmetros de Iluminação ***************/
 	/* Habilita o uso de iluminação */
-      //  glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHTING);
 	/* Habilita a luz de número 0 */
-	 //   glEnable(GL_LIGHT0);
+	    glEnable(GL_LIGHT0);
 	/* Habilita o depth-buffering para remoção de faces escondidas */
 	    glEnable(GL_DEPTH_TEST);
 
@@ -1202,10 +1247,11 @@ int main(int argc, char **argv)
 	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize (LARGURA, ALTURA);
 	glutInitWindowPosition (100, 100);
-	glutCreateWindow("Iluminacao");
+	glutCreateWindow("MergeSort");
 	glutDisplayFunc(Desenha);
 	glutMouseFunc(Mouse_Press);
 	glutMotionFunc(Mouse_Motion);
+    glutKeyboardFunc(key);
 	Inicializa();
 	CriarMenu();
 	glutTimerFunc(100, Anima, 10);
