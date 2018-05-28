@@ -86,35 +86,23 @@ void Desenha_Eixos_Coordenados()
 void ParametrosIluminacao()
 {
 	/* Parâmetros para a Luz GL_LIGHT0 sendo uma fonte de Luz Pontual */
-	GLfloat luzAmbiente[4]={0.2, 0.2, 0.6, 1.0};
-    GLfloat luzDifusa[4]={1.0, 1.0, 0.0, 1.0};
-    GLfloat luzEspecular[4]={0.1, 0.1, 0.2, 1.0};
-    GLfloat posicaoLuz[4]={0.0, 5.0, 10.0, 1.0};    /* Fonte de Luz Pontual */
+	GLfloat luzAmbiente[4]={0.8, 0.8, 0.8, 1.0};
+	GLfloat luzDifusa[4]={1.0, 0.0, 0.4, 1.0};
+    GLfloat luzEspecular[4]={1, 1, 0.6, 1.0};
+    GLfloat posicaoLuz[4]={-1.0,1.0, 1.0, 1.0};    /* Fonte de Luz Pontual */
 
 
     glLightfv(GL_LIGHT0, GL_AMBIENT, luzAmbiente);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, luzDifusa );
     glLightfv(GL_LIGHT0, GL_SPECULAR, luzEspecular );
     glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz );
+    glLightfv(GL_LIGHT0, GL_POSITION, luzDifusa );
 
 
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzAmbiente);
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, posicaoLuz);
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzDifusa);
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzEspecular);
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzDifusa);
 
-
-
-    /* Características do material */
-    GLfloat ka[4]={0.11, 0.06, 0.11, 1.0};
-    GLfloat kd[4]={0.4, 0.4, 0.7, 1.0};
-    GLfloat ks[4]={1.0, 1.0, 1.0, 1.0};
-    GLfloat shininess = 60.0;
-
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ka);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, kd);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, ks);
-    glMaterialf(GL_FRONT, GL_SHININESS, shininess);
 }
 void Desenha_Barra(void){
     glBegin(GL_QUADS);        // Draw The Cube Using quads
@@ -1223,9 +1211,10 @@ void Inicializa (void)
 	    glEnable(GL_LIGHT0);
 	/* Habilita o depth-buffering para remoção de faces escondidas */
 	    glEnable(GL_DEPTH_TEST);
-
+	    glColorMaterial ( GL_FRONT_AND_BACK,GL_AMBIENT) ;
+        glEnable(GL_COLOR_MATERIAL);
 	/* Modelos de Iluminação Defaut */
-	//glShadeModel(GL_SMOOTH); 		/* Gouraud */
+	glShadeModel(GL_SMOOTH); 		/* Gouraud */
 }
 
 /* Programa Principal */
