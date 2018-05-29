@@ -1275,11 +1275,13 @@ void Janela(int opcao)
 {
 	switch(opcao){
 		case 0:
-			glShadeModel(GL_FLAT);		/* Modelo Flat */
+			velocidade = 10;
+
+			cout<<"velocidade = "<<velocidade<<endl;		/* Começar */
 		break;
 
 		case 1:
-			glShadeModel(GL_SMOOTH); 	/* Modelo Gouraud */
+            velocidade = 3000;                    /* Pausar */
 		break;
 	}
 
@@ -1294,9 +1296,8 @@ void CriarMenu()
 	glutCreateMenu(Janela);
 
 	/* Cria entradas nesse menu */
-	glutAddMenuEntry("Modelo FLAT", 0);
-	glutAddMenuEntry("Modelo Gouraud", 1);
-	glutAddMenuEntry("Começar", 1);
+	glutAddMenuEntry("Começar", 0);
+	glutAddMenuEntry("Pausar", 1);
 
 	/* Indica qual o botao que acionará o menu */
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
@@ -1332,15 +1333,16 @@ int main(int argc, char **argv)
 {
     contadorRotacao = 1;
     int j = -8;
-     pos_x[0] = 0;
+
     for(int i = 0; i<16; i++){
         pos_x[i] = j;
         pos_z[i] = -4;
         color1[i] = 0;
         color2[i] = 1;
         color3[i] = 0;
-        j++;
         rotY[i] = 0;
+        j++;
+
     }
 
 	glutInit(&argc, argv);
@@ -1354,6 +1356,6 @@ int main(int argc, char **argv)
     glutKeyboardFunc(key);
 	Inicializa();
 	CriarMenu();
-	glutTimerFunc(100, Anima, 10);
+	glutTimerFunc(1, Anima, 1000);
 	glutMainLoop();
 }
