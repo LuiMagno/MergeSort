@@ -21,6 +21,7 @@ float color1[15];
 float color2[15];
 float color3[15];
 
+bool parar = false;
 int velocidade = 50;
 int passo = 1;
 int olhoCamera = 40;
@@ -1219,8 +1220,14 @@ void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
     }
 
 	glutPostRedisplay();
-	glutTimerFunc(velocidade, Anima, 1);
+    if(parar == false){
+        glutTimerFunc(velocidade, Anima, 1);
+    }
+
+
+
 }
+
 /* Callback chamada quando o mouse é movido com
  * alguma tecla pressionada */
 
@@ -1233,10 +1240,19 @@ void Anima(int value)  /* Usada quando se usar glutTimerFunc() */
             exit(0);
             break;
         case '+': // aumentando a velocidade
-            velocidade--;
+            if(velocidade>10){
+                velocidade -= 10;
+            }else{
+                velocidade--;
+            }
+
             break;
         case '-': // diminuindo a velocidade
-            velocidade++;
+            if(velocidade>10){
+                velocidade += 10;
+            }else{
+                velocidade++;
+            }
             break;
         case 'a': // aumentando distância do olho
             olhoCamera++;
@@ -1275,13 +1291,13 @@ void Janela(int opcao)
 {
 	switch(opcao){
 		case 0:
-			velocidade = 10;
-
+		    parar = false;
+            glutTimerFunc(velocidade, Anima, 1);
 			cout<<"velocidade = "<<velocidade<<endl;		/* Começar */
 		break;
 
 		case 1:
-            velocidade = 3000;                    /* Pausar */
+            parar = true;                    /* Pausar */
 		break;
 	}
 
@@ -1357,5 +1373,7 @@ int main(int argc, char **argv)
 	Inicializa();
 	CriarMenu();
 	glutTimerFunc(1, Anima, 1000);
+
+
 	glutMainLoop();
 }
