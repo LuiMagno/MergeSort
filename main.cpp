@@ -1,29 +1,31 @@
-/* Código para exemplificar
-o uso de iluminação no OpenGL */
+// Código feito por Lui Magno e Renan Vasconcelos - 30/05/2018
 
 #include <GL/glut.h>
 #include <iostream>
 
-#define LARGURA  600		/* Width */
-#define ALTURA   600		/* Heigth */
+#define LARGURA  600
+#define ALTURA   600
+
 using namespace std;
-double rotationX = 20.0;
+
+double rotationX = 20.0; // Variáveis que controlam a rotação da aplicação
 double rotationY = 20.0;
 
 int last_press_x = 0;
 int last_press_y = 0;
-double pos_z[15];
+
+double pos_z[15]; // Vetores responsáveis por salvar as posições das barras nos 3 eixos
 double pos_x[15];
 double pos_y[15];
 int rotY[15];
 
-float color1[15];
+float color1[15]; // Vetores responsáveis pelas colorações das barras - RGB
 float color2[15];
 float color3[15];
 
-bool parar = false;
+bool parar = false; // Variável responsável por controlar a parada na animação
 int velocidade = 50;
-int passo = 1;
+int passo = 1; // Variável que controla os passos dentro da animação
 int olhoCamera = 40;
 
 void ParametrosIluminacao()
@@ -79,69 +81,69 @@ void Desenha_Barra(void){
     glEnd();
 }
 
-void Desenha_Plano(void){
+void Desenha_Plano(void){ // Desenhando o plano que está abaixo das barras e suas linhas coloridas que definem suas fases
  glBegin(GL_QUADS);
-   glColor3f(0.0f,0.0f,0.2f);    // Color Orange
-        glVertex3f(30.0f, 0.0f, 30.0f);    // Top Right Of The Quad (Bottom)
-        glVertex3f(-30.0f, 0.0f, 30.0f);    // Top Left Of The Quad (Bottom)
-        glVertex3f(-30.0f,0.0f,-30.0f);    // Bottom Left Of The Quad (Bottom)
-        glVertex3f( 30.0f,0.0f,-30.0f);    // Bottom Right Of The Quad (Bottom)
+   glColor3f(0.0f,0.0f,0.2f);
+        glVertex3f(30.0f, 0.0f, 30.0f);
+        glVertex3f(-30.0f, 0.0f, 30.0f);
+        glVertex3f(-30.0f,0.0f,-30.0f);
+        glVertex3f( 30.0f,0.0f,-30.0f);
   glEnd();
 
-  /* Desenha Eixo +X */
-	glColor3f(0.0, 1.0, 0.0); /* BLUE */
+
+	glColor3f(0.0, 1.0, 0.0);
 	glBegin(GL_LINES);
 		glVertex3i(0, 0, 0);
 		glVertex3i(LARGURA/2, 0, 0);
 	glEnd();
-	/* Desenha Eixo -X */
-	glColor3f(0.0, 1.0, 0.0); /* BLUE claro */
+
+	glColor3f(0.0, 1.0, 0.0);
 	glBegin(GL_LINES);
 		glVertex3i(0, 0, 0);
 		glVertex3i(-LARGURA/2, 0, 0);
 	glEnd();
-  /* Desenha Eixo +X2 */
-	glColor3f(1, 0.0, 0.0); /* BLUE */
+
+	glColor3f(1, 0.0, 0.0);
 	glBegin(GL_LINES);
 		glVertex3i(0, 0, 2);
 		glVertex3i(LARGURA/2, 0, 2);
 	glEnd();
 
-	/* Desenha Eixo -X2 */
-	glColor3f(1, 0, 0); /* BLUE claro */
+
+	glColor3f(1, 0, 0);
 	glBegin(GL_LINES);
 		glVertex3i(0, 0, 2);
 		glVertex3i(-LARGURA/2, 0, 2);
 	glEnd();
-	 /* Desenha Eixo +X3 */
-	glColor3f(1, 1.0, 0.0); /* BLUE */
+
+	glColor3f(1, 1.0, 0.0);
 	glBegin(GL_LINES);
 		glVertex3i(0, 0, 4);
 		glVertex3i(LARGURA/2, 0, 4);
 	glEnd();
 
-	/* Desenha Eixo -X3 */
-	glColor3f(1, 1, 0); /* BLUE claro */
+
+	glColor3f(1, 1, 0);
 	glBegin(GL_LINES);
 		glVertex3i(0, 0, 4);
 		glVertex3i(-LARGURA/2, 0, 4);
 	glEnd();
-	 /* Desenha Eixo +X4 */
-	glColor3f(0, 1.0, 1.0); /* BLUE */
+
+	glColor3f(0, 1.0, 1.0);
 	glBegin(GL_LINES);
 		glVertex3i(0, 0, 6);
 		glVertex3i(LARGURA/2, 0, 6);
 	glEnd();
 
-	/* Desenha Eixo -X4 */
-	glColor3f(0, 1, 1); /* BLUE claro */
+
+	glColor3f(0, 1, 1);
 	glBegin(GL_LINES);
 		glVertex3i(0, 0, 6);
 		glVertex3i(-LARGURA/2, 0, 6);
 	glEnd();
 
 }
-void Desenha(void)
+void Desenha(void) // Função que desenha os componentes da aplicação: barras, planos, linhas e pontos
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -158,10 +160,10 @@ void Desenha(void)
 
     Desenha_Plano();
     glPushMatrix();
-        glScalef(1.0, 6.0, 1.0);
-        glTranslatef(pos_x[0], 0.2, pos_z[0]);
-        glRotatef(rotY[0],0, 10,0);
-        glColor3d(color1[0], color2[0], color3[0]);
+        glScalef(1.0, 6.0, 1.0); // Cada barra terá seu tamanho definido pela sua escala em relação a barra padrão
+        glTranslatef(pos_x[0], 0.2, pos_z[0]); // Aqui é definido o local que pertence a cada barra nos eixos x,y e z
+        glRotatef(rotY[0],0, 10,0); // ângulo de rotação da barra na animação de troca
+        glColor3d(color1[0], color2[0], color3[0]); // cor da barra
         Desenha_Barra(); // Barra 0
     glPopMatrix();
 
@@ -287,10 +289,10 @@ void Desenha(void)
 
 	glFlush();
 }
-void Anima(int value)
+void Anima(int value) //Nesta função temos a variável "passo" definindo cada estágio da animação
 {
 
-    if( pos_z[0]<0 && passo == 1)
+    if( pos_z[0]<0 && passo == 1) // Trazendo todas as barras da posição z-4 para posição z0
     {
         for(int i = 0; i<16; i++)
         {
@@ -301,7 +303,7 @@ void Anima(int value)
             passo = 2;
         }
     }
-    if(pos_z[0]<2 && passo == 2)
+    if(pos_z[0]<2 && passo == 2) // Este if é responsável tanto por trazer as 8 primeiras barras para frente como por colorí-las de vermelho
     {
         for(int i = 0; i<8; i++)
         {
@@ -1307,11 +1309,11 @@ void Anima(int value)
 
 }
 
-static void key(unsigned char key, int x, int y)
+static void key(unsigned char key, int x, int y) // Função responsável pela interação do teclado com a aplicação
 {
     switch (key)
     {
-        case 'q':
+        case 'e':
             exit(0);
             break;
         case '+': // aumentando a velocidade
@@ -1366,6 +1368,12 @@ void Janela(int opcao)
 		case 1:
             parar = true;                    /* Pausar */
 		break;
+		case 2:
+		    velocidade = 0;                          /*Avançar para o final*/
+        break;
+        case 3:                             /* Fechar Aplicação*/
+            exit(0);
+        break;
 	}
 	glutPostRedisplay();
 }
@@ -1375,6 +1383,8 @@ void CriarMenu()
 	glutCreateMenu(Janela);
 	glutAddMenuEntry("Retomar", 0);
 	glutAddMenuEntry("Pausar", 1);
+	glutAddMenuEntry("Finalizar", 2);
+	glutAddMenuEntry("Sair", 3);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
@@ -1396,7 +1406,7 @@ void Inicializa (void)
 int main(int argc, char **argv)
 {
     int j = -8;
-    for(int i = 0; i<16; i++){
+    for(int i = 0; i<16; i++){ // Inicializando vetores e variáveis
         pos_x[i] = j;
         pos_z[i] = -4;
         color1[i] = 0;
